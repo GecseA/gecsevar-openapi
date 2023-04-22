@@ -1,0 +1,15 @@
+/**
+* {{{description}}}
+{{#vars}}
+    * @param {{{name}}} {{{description}}}
+{{/vars}}
+*/
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class {{classname}}(
+    {{#vars}}
+        val {{{name}}}: {{{datatype}}},
+    {{/vars}}
+) {
+}
