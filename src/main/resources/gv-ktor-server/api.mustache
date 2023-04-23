@@ -25,7 +25,6 @@ fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classna
     {{^featureLocations}}
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}") {
         api.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call)
-//    {{#lambda.indented_12}}"{"{>libraries/ktor/_api_body}"}"{{/lambda.indented_12}}
     }
     {{/featureLocations}}
     {{#hasAuthMethods}}

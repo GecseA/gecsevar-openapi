@@ -21,14 +21,12 @@ React/JS (Typescript)
 # How to use
 
 Simply add a task to your gradle build config like:
+(builds are in the central repo)
 
 ```
 buildscript {
-    repositories {
-        flatDir{dirs ("<>")}
-    }
     dependencies {
-        classpath(files("<WILL BE IN MAVEN>/hu.gecsevar.openapi-1.0.5-all.jar"))
+        classpath("hu.gecsevar:hu.gecsevar.openapi:1.0.15")
     }
 }
 
