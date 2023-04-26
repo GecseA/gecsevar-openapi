@@ -17,6 +17,9 @@ repositories {
 
 dependencies {
     compileOnly("org.openapitools", "openapi-generator", "6.5.0")
+    // https://mvnrepository.com/artifact/gg.jte/jte
+    implementation("gg.jte:jte:2.3.2")
+
     testImplementation(kotlin("test"))
 }
 

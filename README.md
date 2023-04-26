@@ -1,4 +1,5 @@
 ![my workflow](https://github.com/GecseA/gecsevar-openapi/actions/workflows/gradle.yml/badge.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/hu.gecsevar/hu.gecsevar.openapi.svg)](http://mvnrepository.com/hu.gecsevar/hu.gecsevar.openapi)
 
 # gecsevar-openapi
 

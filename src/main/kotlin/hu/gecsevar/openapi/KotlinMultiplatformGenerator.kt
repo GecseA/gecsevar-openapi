@@ -1,10 +1,16 @@
 package hu.gecsevar.openapi
 
+import gg.jte.CodeResolver
+import gg.jte.TemplateEngine
+import gg.jte.compiler.CodeType
+import gg.jte.resolve.DirectoryCodeResolver
 import org.openapitools.codegen.CodegenType
 import org.openapitools.codegen.SupportingFile
+import org.openapitools.codegen.api.TemplatingEngineAdapter
+import org.openapitools.codegen.api.TemplatingExecutor
+import java.nio.file.Path
 
 class KotlinMultiplatformGenerator : AbstractGenerator() {
-
     init {
         outputFolder = "generated/"
         modelTemplateFiles["model.mustache"] = ".kt"
@@ -32,6 +38,14 @@ class KotlinMultiplatformGenerator : AbstractGenerator() {
     override fun getHelp(): String {
         return "Generates a gecsevar's kotlin multiplatform (KMM) client"
     }
+
+    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
+        super.setTemplatingEngine(JteTemplateEngine())
+    }
+
+//    override fun defaultTemplatingEngine(): String {
+//        return "jte"
+//    }
 
     override fun postProcess() {
         System.out.println("################################################################################");
