@@ -8,14 +8,15 @@ import org.openapitools.codegen.CodegenType
 import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.api.TemplatingEngineAdapter
 import org.openapitools.codegen.api.TemplatingExecutor
+import org.openapitools.codegen.templating.HandlebarsEngineAdapter
 import java.nio.file.Path
 
 class KotlinMultiplatformGenerator : AbstractGenerator() {
     init {
         outputFolder = "generated/"
-        modelTemplateFiles["model.mustache"] = ".kt"
-        apiTemplateFiles["api.mustache"] = ".kt"
-        supportingFiles.add(SupportingFile("README.mustache", "", "README.md"))
+        modelTemplateFiles["model.handlebars"] = ".kt"
+        apiTemplateFiles["api.handlebars"] = ".kt"
+        supportingFiles.add(SupportingFile("README.handlebars", "", "README.md"))
         //supportingFiles.add(SupportingFile("http_service.mustache", "", "HttpService.kt"))
         templateDir = "gv-kotlin-multiplatform"
         embeddedTemplateDir = templateDir
@@ -39,13 +40,16 @@ class KotlinMultiplatformGenerator : AbstractGenerator() {
         return "Generates a gecsevar's kotlin multiplatform (KMM) client"
     }
 
-    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
-        super.setTemplatingEngine(JteTemplateEngine())
-    }
-
-//    override fun defaultTemplatingEngine(): String {
-//        return "jte"
+//    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
+//        super.setTemplatingEngine(JteTemplateEngine(templateDir))
 //    }
+
+    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
+        super.setTemplatingEngine(HandlebarsEngineAdapter())
+    }
+    override fun defaultTemplatingEngine(): String {
+        return "handlebars"
+    }
 
     override fun postProcess() {
         System.out.println("################################################################################");

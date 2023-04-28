@@ -2,25 +2,23 @@ package hu.gecsevar.openapi
 
 import gg.jte.ContentType
 import gg.jte.TemplateEngine
-import gg.jte.TemplateOutput
+import gg.jte.TemplateNotFoundException
 import gg.jte.output.StringOutput
-import gg.jte.resolve.DirectoryCodeResolver
+import gg.jte.resolve.ResourceCodeResolver
 import org.openapitools.codegen.api.TemplatingEngineAdapter
 import org.openapitools.codegen.api.TemplatingExecutor
 import org.slf4j.LoggerFactory
 import java.io.Reader
 import java.io.StringReader
-import java.nio.file.Path
+import kotlin.io.*
 
+class JteTemplateEngine(val templateFolder: String) : TemplatingEngineAdapter  {
 
-class JteTemplateEngine : TemplatingEngineAdapter {
-
+    private val codeResolver = ResourceCodeResolver(templateFolder)
+    private val compiler = TemplateEngine.create(codeResolver, ContentType.Plain)
     private var logger = LoggerFactory.getLogger(TemplatingEngineAdapter::class.java)
-    private val codeResolver = DirectoryCodeResolver(Path.of("."))
-    val compiler = TemplateEngine.create(codeResolver, ContentType.Plain)
     init {
-//        val codeResolver: CodeResolver = DirectoryCodeResolver(Path.of("templateDir")) // This is the directory where your .jte files are located.
-//        TemplateEngine.create(codeResolver, CodeType.Kotlin)
+
     }
     override fun getIdentifier(): String {
         return "jte"
@@ -41,16 +39,12 @@ class JteTemplateEngine : TemplatingEngineAdapter {
         bundle: MutableMap<String, Any>?,
         templateFile: String?
     ): String {
-        TODO("Not yet implemented")
-        val tmpl = compiler
-                .withLoader(name -> findTemplate(executor, name))
-                .defaultValue("")
-                .compile(executor.getFullTemplateContents(templateFile));
-        return tmpl.execute(bundle);
-
-        val output: TemplateOutput = StringOutput()
-        templateEngine.render("example.jte", model, output)
-
+        logger.warn("compileTemplate1: $templateFile")
+        val output = StringOutput()
+        val res = compiler.hasTemplate(templateFile)
+        logger.warn("compileTemplate2: $res")
+        //compiler.render(templateFile, bundle, output)
+        logger.warn("compileTemplate3: $output")
         return output.toString()
     }
     @SuppressWarnings("java:S108") // catch-all is expected, and is later thrown
@@ -64,6 +58,6 @@ class JteTemplateEngine : TemplatingEngineAdapter {
             }
         }
 
-        throw new TemplateNotFoundException(name);
+        throw TemplateNotFoundException(name);
     }
 }

@@ -191,12 +191,12 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     }
 
     override fun toEnumName(property: CodegenProperty?): String {
-        CodegenConfigurator.LOGGER.warn("toEnumName: ${property?.name}")
+        //CodegenConfigurator.LOGGER.warn("toEnumName: ${property?.name}")
         return StringUtils.capitalize(property?.name)
     }
 
     override fun toEnumValue(value: String, datatype: String?): String? {
-        CodegenConfigurator.LOGGER.warn("toEnumValue: ${value} | $datatype")
+        //CodegenConfigurator.LOGGER.warn("toEnumValue: ${value} | $datatype")
         if (ScriptRuntime.isPrimitive(datatype)) {
             return value
         }
@@ -206,7 +206,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     }
 
     override fun toEnumVarName(value: String, datatype: String?): String {
-        CodegenConfigurator.LOGGER.warn("toEnumVarName: ${value} | $datatype")
+        //CodegenConfigurator.LOGGER.warn("toEnumVarName: ${value} | $datatype")
         var modified: String
         if (value.isEmpty()) {
             modified = "EMPTY"
