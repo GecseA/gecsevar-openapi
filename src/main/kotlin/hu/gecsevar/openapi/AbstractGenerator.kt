@@ -14,44 +14,6 @@ import java.util.*
 abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
     init {
-        /*
-        reservedWords = HashSet<String>(
-            Arrays.asList(
-                "sample1",  // replace with static values
-                "sample2"
-            )
-        )
-*/
-        //additionalProperties.put("apiVersion", apiVersion);
-
-        //supportingFiles.add(SupportingFile("myFile.mustache","", "myFile.sample"))
-        /*
-                languageSpecificPrimitives = HashSet<String>(
-                    Arrays.asList(
-                        "Type1",      // replace these with your types
-                        "Type2"
-                    )
-                )
-
-         */
-
-        languageSpecificPrimitives = HashSet(
-            mutableListOf(
-                "kotlin.Byte",
-                "kotlin.Short",
-                "kotlin.Int",
-                "kotlin.Long",
-                "kotlin.Float",
-                "kotlin.Double",
-                "kotlin.Boolean",
-                "kotlin.Char",
-                "kotlin.String",
-                "kotlin.Array",
-                "kotlin.collections.List",
-                "kotlin.collections.Map",
-                "kotlin.collections.Set"
-            )
-        )
         defaultIncludes = HashSet(
             mutableListOf(
                 "kotlin.Byte",
@@ -72,6 +34,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["string"] = "kotlin.String"
         typeMapping["boolean"] = "kotlin.Boolean"
         typeMapping["integer"] = "kotlin.Int"
+        typeMapping["integer+int32"] = "kotlin.Int"
+        typeMapping["integer+int64"] = "kotlin.Long"
         typeMapping["float"] = "kotlin.Float"
         typeMapping["long"] = "kotlin.Long"
         typeMapping["double"] = "kotlin.Double"
@@ -88,9 +52,26 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["DateTime"] = "Instant" // "java.time.LocalDateTime"
         typeMapping["ByteArray"] = "kotlin.Array<Byte>"
 
-//    instantiationTypes["array"] = "arrayOf"
         instantiationTypes["list"] = "listOf"
         instantiationTypes["map"] = "mapOf"
+
+        languageSpecificPrimitives = HashSet(
+            mutableListOf(
+//                "kotlin.Byte",
+//                "kotlin.Short",
+//                "kotlin.Int",
+//                "kotlin.Long",
+//                "kotlin.Float",
+//                "kotlin.Double",
+//                "kotlin.Boolean",
+//                "kotlin.Char",
+//                "kotlin.String",
+//                "kotlin.Array",
+////                "kotlin.collections.List",
+////                "kotlin.collections.Map",
+////                "kotlin.collections.Set"
+            )
+        )
 
         importMapping = HashMap()
         importMapping["BigDecimal"] = "java.math.BigDecimal"
@@ -142,7 +123,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     }
 
     override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
-        return super.addMustacheLambdas().put("convert_path_to_fun", ConvertPathToFunction)
+        return super.addMustacheLambdas()
+            .put("convert_path_to_fun", ConvertPathToFunction)
     }
 
     object ConvertPathToFunction : Mustache.Lambda {
@@ -227,5 +209,22 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
     override fun lowerCamelCase(name: String?): String {
         return super.lowerCamelCase(name)
+    }
+
+    override fun defaultIncludes(): MutableSet<String> {
+        return defaultIncludes
+    }
+
+    override fun typeMapping(): MutableMap<String, String> {
+        return typeMapping
+    }
+
+    override fun languageSpecificPrimitives(): MutableSet<String> {
+        return languageSpecificPrimitives
+    }
+
+    override fun updatePropertyForArray(property: CodegenProperty?, innerProperty: CodegenProperty?) {
+        //CodegenConfigurator.LOGGER.warn("updatePropertyForArray: ${property} | $innerProperty")
+        super.updatePropertyForArray(property, innerProperty)
     }
 }

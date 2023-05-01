@@ -1,5 +1,8 @@
 package hu.gecsevar.openapi
 
+import com.google.common.collect.ImmutableMap
+import com.samskivert.mustache.Mustache
+import com.samskivert.mustache.Template
 import gg.jte.CodeResolver
 import gg.jte.TemplateEngine
 import gg.jte.compiler.CodeType
@@ -9,14 +12,15 @@ import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.api.TemplatingEngineAdapter
 import org.openapitools.codegen.api.TemplatingExecutor
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter
+import java.io.Writer
 import java.nio.file.Path
 
 class KotlinMultiplatformGenerator : AbstractGenerator() {
     init {
         outputFolder = "generated/"
-        modelTemplateFiles["model.handlebars"] = ".kt"
-        apiTemplateFiles["api.handlebars"] = ".kt"
-        supportingFiles.add(SupportingFile("README.handlebars", "", "README.md"))
+        modelTemplateFiles["model.mustache"] = ".kt"
+        apiTemplateFiles["api.mustache"] = ".kt"
+        supportingFiles.add(SupportingFile("README.mustache", "", "README.md"))
         //supportingFiles.add(SupportingFile("http_service.mustache", "", "HttpService.kt"))
         templateDir = "gv-kotlin-multiplatform"
         embeddedTemplateDir = templateDir
@@ -43,12 +47,12 @@ class KotlinMultiplatformGenerator : AbstractGenerator() {
 //    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
 //        super.setTemplatingEngine(JteTemplateEngine(templateDir))
 //    }
-
-    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
-        super.setTemplatingEngine(HandlebarsEngineAdapter())
-    }
+// TODO replace this dummy engine
+//    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
+//        super.setTemplatingEngine(HandlebarsEngineAdapter())
+//    }
     override fun defaultTemplatingEngine(): String {
-        return "handlebars"
+        return "mustache"
     }
 
     override fun postProcess() {
@@ -56,5 +60,16 @@ class KotlinMultiplatformGenerator : AbstractGenerator() {
         System.out.println("################################################################################");
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+    }
+
+    override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
+        return super.addMustacheLambdas()
+            .put("", CreateClientCode)
+    }
+
+    object CreateClientCode : Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+
+        }
     }
 }
