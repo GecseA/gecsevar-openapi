@@ -1,6 +1,49 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 {{>licenseInfo}}
 package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import io.ktor.client.call.*
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+{{#operations}}
+class {{classname}}(private val client: HttpService) {
+
+{{#operation}}
+    @Throws(Exception::class)
+    suspend fun {{operationId}}(
+        {{#allParams}}{{{paramName}}}: {{{dataType}}}, {{/allParams}}
+    ): HttpResponse {
+        return client.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}"
+{{#pathParams}}
+    , mapOf<String, Any>("{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})
+{{/pathParams}}
+{{^pathParams}}
+    , emptyMap()
+{{/pathParams}}
+{{#hasBodyParam}}
+    , Json.encodeToString({{#bodyParam}}{{#isArray}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}})
+{{/hasBodyParam}}
+        )
+    }
+{{/operation}}
+
+}
+{{/operations}}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+{{>licenseInfo}}
 /*
+package {{apiPackage}}
+
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -32,7 +75,7 @@ import kotlinx.serialization.encoding.*
         {{#returnType}}
             @Suppress("UNCHECKED_CAST")
         {{/returnType}}
-        open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}, {{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}, {{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
             val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}", {{/authMethods}})
 
@@ -66,7 +109,7 @@ import kotlinx.serialization.encoding.*
 
             val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
+"{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
