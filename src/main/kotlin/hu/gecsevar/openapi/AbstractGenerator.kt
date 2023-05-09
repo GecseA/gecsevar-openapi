@@ -85,6 +85,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["LocalTime"] = "java.time.LocalTime2"
         importMapping["string"] = "kotlin.String"
         importMapping["long"] = "kotlin.Long"
+        importMapping["boolean"] = "kotlin.Boolean"
         importMapping["integer"] = "kotlin.Int"
         importMapping["array"] = "kotlin.collections.List"
         importMapping["ByteArray"] = "kotlin.ByteArray"

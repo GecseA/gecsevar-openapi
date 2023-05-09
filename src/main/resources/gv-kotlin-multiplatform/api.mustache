@@ -1,5 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
 {{>licenseInfo}}
 package {{apiPackage}}
 
@@ -14,33 +12,27 @@ import kotlinx.serialization.json.Json
 
 {{#operations}}
 class {{classname}}(private val client: HttpService) {
-
 {{#operation}}
     @Throws(Exception::class)
     suspend fun {{operationId}}(
-        {{#allParams}}{{{paramName}}}: {{{dataType}}}, {{/allParams}}
+        {{#allParams}}{{{paramName}}}: {{{dataType}}}{{#isArray}}<{{items.complexType}}{{^isList}}{{/isList}}>{{/isArray}}, {{/allParams}}
     ): HttpResponse {
         return client.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}"
 {{#pathParams}}
-    , mapOf<String, Any>("{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})
+            , mapOf<String, Any>("{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})
 {{/pathParams}}
 {{^pathParams}}
-    , emptyMap()
+            , emptyMap()
 {{/pathParams}}
 {{#hasBodyParam}}
-    , Json.encodeToString({{#bodyParam}}{{#isArray}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}})
+            , Json.encodeToString({{#bodyParam}}{{#isArray}}({{{paramName}}}{{^isList}}{{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}})
 {{/hasBodyParam}}
         )
     }
 {{/operation}}
-
 }
 {{/operations}}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-{{>licenseInfo}}
 /*
 package {{apiPackage}}
 
@@ -138,38 +130,8 @@ open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{
         }
 {{/operations}}
 */
+
 /*
-package hu.scheiber.happychat.api
-
-import hu.scheiber.happychat.models.Chat
-import io.ktor.client.call.*
-import io.ktor.http.*
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
-class ChatSocket(private val client: HttpServiceImpl) {
-
-    @Throws(Exception::class)
-    suspend fun postChat(chat: Chat) {
-    val res = client.post("/web_chat", Json.encodeToString(chat))
-
-    if (res.status == HttpStatusCode.OK) {
-
-    }
-    }
-    @Throws(Exception::class)
-    suspend fun getChats(roomId : Int) : MutableList<Chat> {
-    val res = client.get("/web_chat/{id}", mapOf<String, Any>("id" to roomId))
-
-    if (res.status == HttpStatusCode.OK) {
-    return Json.decodeFromString(res.body())
-    }
-
-    return mutableListOf()
-    }
-    }
-
 interface {{classname}} {
 
 {{#operations}}
