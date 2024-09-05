@@ -2,14 +2,14 @@ val ossrhUsername: String? by project
 val ossrhPassword: String? by project
 
 plugins {
-    kotlin("jvm") version "1.8.0"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    kotlin("jvm") version "2.0.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     `maven-publish`
     signing
 }
 
 group = "hu.gecsevar"
-version = "1.0.15"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
