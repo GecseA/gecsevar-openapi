@@ -36,6 +36,8 @@ publishing {
     repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
         name = "OSSRH"
         credentials {
+System.getenv("OSS_USER_NAME")
+System.getenv("OSS_USER_PASS")
             username = ossrhUsername
             password = ossrhPassword
         }
