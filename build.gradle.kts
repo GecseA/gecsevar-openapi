@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "1.2.0"
+version = "1.3.0"
 
 repositories {
     mavenCentral()
@@ -89,27 +89,3 @@ signing {
     sign(publishing.publications)
 }
 
-/*
-/*
-** Github repo is *NOT* public!
-*/
-publishing {
-    publications.create<MavenPublication>("shadow") {
-        project.extensions.configure<com.github.jengelman.gradle.plugins.shadow.ShadowExtension> {
-            component(this@create)
-        }
-        groupId = "$group"
-        artifactId = "openapi"
-        version = "$version"
-    }
-
-    repositories.maven("https://maven.pkg.github.com/GecseA/gecsevar-openapi") {
-        name = "GitHubPackages"
-
-        credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
-        }
-    }
-}
-*/

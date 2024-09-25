@@ -15,10 +15,6 @@ kotlin-multiplatform-client (mobile Android & iOS related)
   - model
   - api (client Http calls)
   
-React/JS (Typescript)
-  - model
-  - api (client Http calls)
-
 # How to use
 
 Simply add a task to your gradle build config like:
