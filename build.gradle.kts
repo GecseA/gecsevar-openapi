@@ -1,24 +1,32 @@
 val ossrhUsername: String? by project
 val ossrhPassword: String? by project
+val ossindexApiToken: String? by project
+val ossrhAccessUserName: String? by project
+val ossrhAccessUserToken: String? by project
+
 
 plugins {
     kotlin("jvm") version "2.0.10"
+    kotlin("plugin.serialization") version "2.0.10"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     `maven-publish`
     signing
 }
 
 group = "hu.gecsevar"
-version = "1.1.0"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly("org.openapitools", "openapi-generator", "6.5.0")
+    compileOnly("org.openapitools", "openapi-generator", "7.8.0")
     // https://mvnrepository.com/artifact/gg.jte/jte
-    implementation("gg.jte:jte:2.3.2")
+    implementation("gg.jte:jte:3.1.12")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.6.1")
 
     testImplementation(kotlin("test"))
 }
@@ -36,10 +44,8 @@ publishing {
     repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
         name = "OSSRH"
         credentials {
-System.getenv("OSS_USER_NAME")
-System.getenv("OSS_USER_PASS")
-            username = ossrhUsername
-            password = ossrhPassword
+            username = ossrhAccessUserName
+            password = ossrhAccessUserToken
         }
     }
     publications {

@@ -30,6 +30,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 "kotlin.collections.Map"
             )
         )
+
         typeMapping = HashMap()
         typeMapping["string"] = "kotlin.String"
         typeMapping["boolean"] = "kotlin.Boolean"
@@ -40,15 +41,15 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["long"] = "kotlin.Long"
         typeMapping["double"] = "kotlin.Double"
         typeMapping["number"] = "java.math.BigDecimal"
-        typeMapping["date-time"] = "Instant" // "java.time.LocalDateTime"
-        typeMapping["date"] = "java.time.LocalDateTime"
+        typeMapping["date-time"] = "LocalDateTime"
+        typeMapping["date"] = "LocalDate"
         typeMapping["file"] = "java.io.File"
         typeMapping["array"] = "kotlin.collections.List" //"kotlin.Array"
         typeMapping["list"] = "kotlin.collections.List" // "kotlin.Array"
         typeMapping["map"] = "kotlin.collections.Map"
         typeMapping["object"] = "kotlin.Any"
         typeMapping["binary"] = "kotlin.Array<kotlin.Byte>"
-        typeMapping["Date"] = "java.time.LocalDateTime"
+        typeMapping["Date"] = "LocalDateTime"
         typeMapping["DateTime"] = "Instant" // "java.time.LocalDateTime"
         typeMapping["ByteArray"] = "kotlin.Array<Byte>"
 
@@ -79,10 +80,10 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["File"] = "java.io.File"
         importMapping["Date"] = "java.util.Date"
         importMapping["Timestamp"] = "kotlinx.datetime.Instant"
-        importMapping["DateTime"] = "kotlinx.datetime.Instant" // "java.time.LocalDateTime2"
-        importMapping["LocalDateTime"] = "kotlinx.datetime.Instant"
-        importMapping["LocalDate"] = "kotlinx.datetime.Instant" // "java.time.LocalDate2"
-        importMapping["LocalTime"] = "java.time.LocalTime2"
+        importMapping["DateTime"] = "kotlinx.datetime.Instant"
+        importMapping["date-time"] = "kotlinx.datetime.LocalDateTime"
+        importMapping["date"] = "kotlinx.datetime.LocalDate"
+        importMapping["time"] = "kotlinx.datetime.LocalTime"
         importMapping["string"] = "kotlin.String"
         importMapping["long"] = "kotlin.Long"
         importMapping["boolean"] = "kotlin.Boolean"
@@ -141,6 +142,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                     myText += it.uppercase().first()
                     nextUpper = false
                 } else if (it == '/') {
+                    nextUpper = true
+                } else if (it == '-') {
                     nextUpper = true
                 } else {
                     myText += it
@@ -209,6 +212,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     }
 
     override fun lowerCamelCase(name: String?): String {
+
         return super.lowerCamelCase(name)
     }
 

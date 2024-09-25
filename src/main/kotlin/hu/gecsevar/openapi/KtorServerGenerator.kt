@@ -35,7 +35,6 @@ class KtorServerGenerator : AbstractGenerator() {
         return "Generates a gecsevar's kotlin server"
     }
 
-
     override fun postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
