@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class {{classname}}(
     {{#vars}}
-        val {{{name}}}: {{#isEnum}}{{{description}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{#isArray}}{{^isList}}<{{items.complexType}}>{{/isList}}{{/isArray}},
+        val {{{name}}}: {{#isEnum}}{{{description}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{#isArray}}{{^isList}}<{{items.dataType}}>{{/isList}}{{/isArray}}{{^required}}?{{/required}},
     {{/vars}}
 ) {
 }
