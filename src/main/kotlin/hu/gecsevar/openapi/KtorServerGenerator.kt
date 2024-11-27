@@ -20,6 +20,9 @@ class KtorServerGenerator : AbstractGenerator() {
         apiPackage = "Apis"
         modelPackage = "Models"
 
+        // TODO
+        // time type parameter
+        //
     }
 
     // source folder where to write the files
@@ -36,13 +39,13 @@ class KtorServerGenerator : AbstractGenerator() {
     }
 
     override fun postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F       #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by  #");
-        System.out.println("# Please support his work directly  #");
-        System.out.println("################################################################################");
+        println("################################################################################");
+        println("# Thanks for using OpenAPI Generator.                                          #");
+        println("# Please consider donation to help us maintain this project \uD83D\uDE4F       #");
+        println("# https://opencollective.com/openapi_generator/donate                          #");
+        println("#                                                                              #");
+        println("# This generator's contributed by  #");
+        println("# Please support his work directly  #");
+        println("################################################################################");
     }
 }
