@@ -20,7 +20,7 @@ fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classna
 {{#operation}}
     {{#hasAuthMethods}}
         {{#authMethods}}
-            authenticate("{{{name}}}") {
+authenticate("{{{name}}}") {
         {{/authMethods}}
     {{/hasAuthMethods}}
     {{^featureLocations}}
@@ -29,7 +29,7 @@ fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classna
     }
     {{/featureLocations}}
     {{#hasAuthMethods}}
-            }
+}
     {{/hasAuthMethods}}
 {{/operation}}
 }
