@@ -6,15 +6,15 @@ val ossrhAccessUserToken: String? by project
 
 
 plugins {
-    kotlin("jvm") version "2.0.10"
-    kotlin("plugin.serialization") version "2.0.10"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
+    id("com.gradleup.shadow") version "9.0.0-beta2"
     `maven-publish`
     signing
 }
 
 group = "hu.gecsevar"
-version = "1.3.0"
+version = "1.4.0"
 
 repositories {
     mavenCentral()
