@@ -25,6 +25,71 @@ authenticate("{{{name}}}") {
     {{/hasAuthMethods}}
     {{^featureLocations}}
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}") {
+        /**
+          * Skeleton for implementation
+          *
+          * Api Operation: {{{summary}}}
+          * operation ID : {{{operationId}}}
+          * description  : {{{notes}}}
+          */
+
+        // Request
+{{#pathParams}}
+        // val {{baseName}} = call.parameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}()
+{{^last}}{{/last}}{{/pathParams}}
+{{#queryParams}}
+        // val {{baseName}} = call.request.queryParameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}()
+{{^last}}{{/last}}{{/queryParams}}
+{{#bodyParams}}
+        // val request = call.receive<{{#isArray}}{{^isList}}List<{{items.dataType}}>{{/isList}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}>(){{#required}}!!{{/required}}{{^required}}{{/required}}
+{{^last}}{{/last}}{{/bodyParams}}
+        // Response
+        /**
+{{#responses}}
+          * code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response type: {{{baseType}}}{{/baseType}}{{#containerType}} response container: {{{containerType}}}{{/containerType}}{{#hasMore}}{{/hasMore}}
+{{/responses}}
+        {{#implicitHeaders}}
+            @ApiImplicitParams({
+            {{#headerParams}}
+                {{>implicitHeader}}
+            {{/headerParams}}
+            })
+        {{/implicitHeaders}}
+          */
+
+    /*
+    Unused
+    {{#pathParams}}
+        {{baseName}}" to {{#isContainer}}{{paramName}} Container> {{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})
+    {{/pathParams}}
+    {{^pathParams}}
+        No path parameters
+    {{/pathParams}}
+    {{#hasBodyParam}}
+        , Json.encodeToString({{#bodyParam}}{{#isArray}}({{{paramName}}}{{^isList}}{{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}{{/bodyParam}})
+    {{/hasBodyParam}}
+---------------------------
+    // response is Array -> {{#returnContainer}}{{{returnContainer}}}<{{/returnContainer}}
+    val res = {{#returnContainer}}List<{{/returnContainer}}{{#returnBaseType}}{{{returnBaseType}}}{{#returnContainer}}>{{/returnContainer}}(
+    ){{/returnBaseType}}
+
+    {{#hasAuthMethods}}, authorizations = {
+    {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+    {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+    {{/hasMore}}{{/scopes}}
+    }{{/isOAuth}}){{#hasMore}},
+    {{/hasMore}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    Request Mapping(value = "{{{path}}}",{{#singleContentTypes}}
+        produces = "{{{vendorExtensions.x-accepts}}}",
+        consumes = "{{{vendorExtensions.x-contentType}}}",{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
+        produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
+        consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
+    method = RequestMethod.{{httpMethod}})
+
+    -------------------------
+    */
+
         api.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call)
     }
     {{/featureLocations}}

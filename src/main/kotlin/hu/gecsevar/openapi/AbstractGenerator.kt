@@ -32,45 +32,45 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         )
 
         typeMapping = HashMap()
-        typeMapping["string"] = "kotlin.String"
-        typeMapping["boolean"] = "kotlin.Boolean"
-        typeMapping["integer"] = "kotlin.Int"
-        typeMapping["integer+int32"] = "kotlin.Int"
-        typeMapping["integer+int64"] = "kotlin.Long"
-        typeMapping["float"] = "kotlin.Float"
-        typeMapping["long"] = "kotlin.Long"
-        typeMapping["double"] = "kotlin.Double"
-        typeMapping["number"] = "java.math.BigDecimal"
-        typeMapping["date-time"] = "LocalDateTime"
+        typeMapping["string"] = "String"
+        typeMapping["boolean"] = "Boolean"
+        typeMapping["integer"] = "Int"
+        typeMapping["integer+int32"] = "Int"
+        typeMapping["integer+int64"] = "Long"
+        typeMapping["float"] = "Float"
+        typeMapping["long"] = "Long"
+        typeMapping["double"] = "Double"
+        typeMapping["number"] = "Int"
+        typeMapping["date-time"] = "Instant"
         typeMapping["date"] = "LocalDate"
         typeMapping["file"] = "java.io.File"
-        typeMapping["array"] = "kotlin.collections.List"
-        typeMapping["list"] = "kotlin.collections.List"
-        typeMapping["map"] = "kotlin.collections.Map"
-        typeMapping["object"] = "kotlin.Any"
-        typeMapping["binary"] = "kotlin.Array<kotlin.Byte>"
+        typeMapping["array"] = "List"
+        typeMapping["list"] = "List"
+        typeMapping["map"] = "Map"
+        typeMapping["object"] = "Any"
+        typeMapping["binary"] = "Array<Byte>"
         typeMapping["Date"] = "LocalDate"
         typeMapping["DateTime"] = "Instant"
-        typeMapping["ByteArray"] = "kotlin.Array<Byte>"
+        typeMapping["ByteArray"] = "Array<Byte>"
 
         instantiationTypes["list"] = "listOf"
         instantiationTypes["map"] = "mapOf"
 
         languageSpecificPrimitives = HashSet(
             mutableListOf(
-//                "kotlin.Byte",
-//                "kotlin.Short",
-//                "kotlin.Int",
-//                "kotlin.Long",
-//                "kotlin.Float",
-//                "kotlin.Double",
-//                "kotlin.Boolean",
-//                "kotlin.Char",
-//                "kotlin.String",
-//                "kotlin.Array",
-////                "kotlin.collections.List",
-////                "kotlin.collections.Map",
-////                "kotlin.collections.Set"
+                "Byte",
+                "Short",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "Boolean",
+                "Char",
+                "String",
+                "Array",
+                "List",
+                "Map",
+                "Set"
             )
         )
 
