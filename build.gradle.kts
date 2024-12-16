@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.openapitools", "openapi-generator", "7.8.0")
+    compileOnly("org.openapitools", "openapi-generator", "7.10.0")
     // https://mvnrepository.com/artifact/gg.jte/jte
     implementation("gg.jte:jte:3.1.12")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")

@@ -1,24 +1,17 @@
 
-/**
- * {{{description}}}
-{{#vars}}
- * @param {{{name}}} {{{description}}}
-{{/vars}}
- */
 import kotlinx.serialization.Serializable
 
+/**
+ * {{{description}}}
+ *
+{{#vars}}
+ * @property {{{name}}} {{{description}}}
+{{/vars}}
+ */
 @Serializable
 data class {{classname}}(
     {{#vars}}
-        val {{{name}}}:
-        {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}
-            //{{{dataType}}}
-            {{#lambda.convert_data_type_to_camel_case}}{{{dataType}}}{{/lambda.convert_data_type_to_camel_case}}
-        {{/isEnum}}
-        {{#isArray}}{{^isList}}<
-        {{#lambda.convert_data_type_to_camel_case}}{{items.dataType}}{{/lambda.convert_data_type_to_camel_case}}
-        >{{/isList}}{{/isArray}}
-        {{^required}}? = null{{/required}},
+        val {{{name}}}:{{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{#lambda.convert_data_type_to_camel_case}}{{{dataType}}}{{/lambda.convert_data_type_to_camel_case}}{{/isEnum}}{{#isArray}}{{^isList}}<{{#lambda.convert_data_type_to_camel_case}}{{items.dataType}}{{/lambda.convert_data_type_to_camel_case}}>{{/isList}}{{/isArray}}{{^required}}? = null{{/required}},
     {{/vars}}
 ) {
 {{#hasEnums}}
