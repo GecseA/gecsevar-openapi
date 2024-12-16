@@ -41,11 +41,11 @@ class KtorServerGenerator : AbstractGenerator() {
     override fun postProcess() {
         println("################################################################################");
         println("# Thanks for using OpenAPI Generator.                                          #");
-        println("# Please consider donation to help us maintain this project \uD83D\uDE4F       #");
-        println("# https://opencollective.com/openapi_generator/donate                          #");
         println("#                                                                              #");
-        println("# This generator's contributed by  #");
-        println("# Please support his work directly  #");
+        println("# This generator's contributed by AstrA - https://gecsevar.hu                  #");
+        println("# Please support his work directly by on his GitHub at                         #");
+        println("# Give & Send: stars, feature suggestions, fixes, etc.                         #");
+        println("#                           https://github.com/GecseA/gecsevar-openapi         #");
         println("################################################################################");
     }
 }

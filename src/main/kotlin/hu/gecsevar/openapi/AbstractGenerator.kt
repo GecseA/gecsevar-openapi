@@ -4,12 +4,15 @@ import com.github.jknack.handlebars.internal.lang3.StringUtils
 import com.google.common.collect.ImmutableMap
 import com.samskivert.mustache.Mustache
 import com.samskivert.mustache.Template
+import io.swagger.v3.oas.models.media.Schema
 import org.mozilla.javascript.ScriptRuntime
 import org.openapitools.codegen.*
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.model.ModelsMap
+import org.openapitools.codegen.utils.ModelUtils
 import java.io.Writer
 import java.util.*
+
 
 abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
@@ -70,7 +73,9 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 "Array",
                 "List",
                 "Map",
-                "Set"
+                "Set",
+
+                "number"
             )
         )
 
@@ -105,7 +110,6 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
         cliOptions.add(library)
 
-
         // no good on enum
         cliOptions.clear()
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder)
@@ -113,8 +117,6 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId)
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId)
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion)
-
-
 
         // no good on enum
         val enumPropertyNamingOpt =
@@ -127,6 +129,26 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
         return super.addMustacheLambdas()
             .put("convert_path_to_fun", ConvertPathToFunction)
+            .put("convert_data_type_to_camel_case", ConvertDataTypeToCamelCase)
+    }
+
+    object ConvertDataTypeToCamelCase: Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+            val text = frag?.execute()
+            var nextUpper = true
+            var myText = ""
+            text?.forEach {
+                if (nextUpper) {
+                    myText += it.uppercase()
+                    nextUpper = false
+                } else if (it == '_') {
+                    nextUpper = true
+                } else {
+                    myText += it
+                }
+            }
+            out?.write(myText)
+        }
     }
 
     object ConvertPathToFunction : Mustache.Lambda {
@@ -150,7 +172,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 }
             }
             out?.write(myText)
-            CodegenConfigurator.LOGGER.warn("Mustache.Lambda: $myText")
+            //CodegenConfigurator.LOGGER.warn("Mustache.Lambda: $myText")
         }
     }
     override fun postProcessSupportingFileData(objs: MutableMap<String, Any>?): MutableMap<String, Any> {
@@ -206,6 +228,28 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         } else modified
     }
 
+    override fun toModelImport(name: String?): String {
+        if (name?.contains("_") == true) {
+            CodegenConfigurator.LOGGER.warn("toModelImport (EXCLUDE): $name")
+            val text = name
+            var nextUpper = true
+            var myText = ""
+            text.forEach {
+                if (nextUpper) {
+                    myText += it.uppercase()
+                    nextUpper = false
+                } else if (it == '_') {
+                    nextUpper = true
+                } else {
+                    myText += it
+                }
+            }
+            return super.toModelImport(myText)
+        }
+        CodegenConfigurator.LOGGER.warn("toModelImport: $name")
+        return super.toModelImport(name)
+    }
+
     override fun postProcessModels(objs: ModelsMap?): ModelsMap {
         return postProcessModelsEnum(objs)
         //return super.postProcessModels(objs)
@@ -229,7 +273,40 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     }
 
     override fun updatePropertyForArray(property: CodegenProperty?, innerProperty: CodegenProperty?) {
-        //CodegenConfigurator.LOGGER.warn("updatePropertyForArray: ${property} | $innerProperty")
+        //CodegenCologgernfigurator.LOGGER.warn("updatePropertyForArray: ${property} | $innerProperty")
         super.updatePropertyForArray(property, innerProperty)
+    }
+
+    override fun fromModel(name: String?, schema: Schema<*>?): CodegenModel {
+
+        val allDefinitions = ModelUtils.getSchemas(this.openAPI)
+        val codegenModel = super.fromModel(name, schema)
+        // additional import for different cases
+        addAdditionalImports(codegenModel, codegenModel.getComposedSchemas());
+
+        return super.fromModel(name, schema)
+    }
+
+    private fun addAdditionalImports(model: CodegenModel, composedSchemas: CodegenComposedSchemas?) {
+        if (composedSchemas == null) {
+            return
+        }
+
+        val propertyLists = Arrays.asList(
+            composedSchemas.anyOf,
+            composedSchemas.oneOf,
+            composedSchemas.allOf
+        )
+        for (propertyList in propertyLists) {
+            if (propertyList == null) {
+                continue
+            }
+            for (cp in propertyList) {
+                val dataType = cp.baseType
+                if (null != importMapping()[dataType]) {
+                    model.imports.add(dataType)
+                }
+            }
+        }
     }
 }
