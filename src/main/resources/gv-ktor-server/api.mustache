@@ -12,41 +12,34 @@ interface {{classname}} {
 {{/operation}}
 {{/operations}}
 }
-
 {{#operations}}
 {{#featureLocations}}
 {{/featureLocations}}
 fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classname}}) {
 {{#operation}}
     {{#hasAuthMethods}}
-        {{#authMethods}}
-authenticate("{{{name}}}") {
-        {{/authMethods}}
+    {{#authMethods}}authenticate("{{{name}}}") {
+    {{/authMethods}}
     {{/hasAuthMethods}}
     {{^featureLocations}}
+    /**
+     * Api Operation: {{{summary}}}
+     * operation ID : {{{operationId}}}
+     * description  : {{{notes}}}
+     */
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}") {
-        /**
-          * Skeleton for implementation
-          *
-          * Api Operation: {{{summary}}}
-          * operation ID : {{{operationId}}}
-          * description  : {{{notes}}}
-          */
-
+        api.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call)
         // Request
-{{#pathParams}}
-        // val {{baseName}} = call.parameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}()
-{{^last}}{{/last}}{{/pathParams}}
-{{#queryParams}}
-        // val {{baseName}} = call.request.queryParameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}()
-{{^last}}{{/last}}{{/queryParams}}
-{{#bodyParams}}
-        // val request = call.receive<{{#isArray}}{{^isList}}List<{{items.dataType}}>{{/isList}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}>(){{#required}}!!{{/required}}{{^required}}{{/required}}
-{{^last}}{{/last}}{{/bodyParams}}
+{{#pathParams}}        // val {{baseName}} = call.parameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}(){{^last}}{{/last}}
+{{/pathParams}}
+{{#queryParams}}        // val {{baseName}} = call.request.queryParameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}{{#isPrimitiveType}}.to{{{dataType}}}(){{/isPrimitiveType}}{{^last}}{{/last}}
+{{/queryParams}}
+{{#bodyParams}}        // val request = call.receive<{{#isArray}}{{^isList}}List<{{items.dataType}}>{{/isList}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}>(){{^last}}{{/last}}
+{{/bodyParams}}
         // Response
         /**
 {{#responses}}
-          * code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response type: {{{baseType}}}{{/baseType}}{{#containerType}} response container: {{{containerType}}}{{/containerType}}{{#hasMore}}{{/hasMore}}
+          * code = {{{code}}}, message = "{{{message}}}"{{^containerType}}{{#baseType}}, response: {{#lambda.convert_data_class_to_camel_case}}{{{baseType}}}{{/lambda.convert_data_class_to_camel_case}}{{/baseType}}{{/containerType}}{{#containerType}} response {{{containerType}}}: List<{{#lambda.convert_data_class_to_camel_case}}{{#baseType}}{{{baseType}}}{{/baseType}}{{/lambda.convert_data_class_to_camel_case}}> {{/containerType}}{{#hasMore}}{{/hasMore}}
 {{/responses}}
         {{#implicitHeaders}}
             @ApiImplicitParams({
@@ -56,11 +49,10 @@ authenticate("{{{name}}}") {
             })
         {{/implicitHeaders}}
           */
-        api.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call)
     }
     {{/featureLocations}}
     {{#hasAuthMethods}}
-}
+    }
     {{/hasAuthMethods}}
 {{/operation}}
 }

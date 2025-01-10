@@ -131,30 +131,57 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         return super.addMustacheLambdas()
             .put("convert_path_to_fun", ConvertPathToFunction)
             .put("convert_data_type_to_camel_case", ConvertDataTypeToCamelCase)
+            .put("convert_data_type_to_snake_case", ConvertDataTypeToSnakeCase)
+            .put("convert_data_class_to_camel_case", ConvertDataClassToCamelCase)
     }
 
+    object ConvertDataClassToCamelCase: Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+            val text = frag?.execute()
+
+            //CodegenConfigurator.LOGGER.warn("ConvertDataClassToCamelCase (BEFORE): $text")
+            val snakeToCamel = Regex("_([a-zA-Z0-9])")
+            val result = text?.replace(snakeToCamel) {
+                it.value.removePrefix("_").uppercase()
+            }?.replaceFirstChar { it.uppercase() }
+
+            out?.write(result.toString())
+            //CodegenConfigurator.LOGGER.warn("ConvertDataClassToCamelCase (AFTER): $result")
+        }
+    }
     /**
-     * Openapi generates schema names like:
-     *      MyFineData_class_variables
-     * this will be:
-     *      MyFineDataClassVariables
+     * Mustache extension function
+     *
+     * snake_case_text -> snakeCaseText
      */
     object ConvertDataTypeToCamelCase: Mustache.Lambda {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
             val text = frag?.execute()
-            var nextUpper = true
-            var myText = ""
-            text?.forEach {
-                if (nextUpper) {
-                    myText += it.uppercase()
-                    nextUpper = false
-                } else if (it == '_') {
-                    nextUpper = true
-                } else {
-                    myText += it
+
+            val snakeToCamel = Regex("_([a-zA-Z0-9])")
+            val result = text?.replace(snakeToCamel) {
+                it.value.removePrefix("_").uppercase()
+            }
+            out?.write(result.toString())
+        }
+    }
+
+    /**
+     * Mustache extension function
+     *
+     * camelCaseText -> camel_case_text
+     */
+    object ConvertDataTypeToSnakeCase: Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+            val text = frag?.execute()
+
+            val camelToSnake = Regex("([A-Z])")
+            val result = text?.replace(camelToSnake) { it ->
+                it.value.let { part ->
+                    "_".plus(part.lowercase())
                 }
             }
-            out?.write(myText)
+            out?.write(result.toString())
         }
     }
 
@@ -237,7 +264,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
     override fun toModelImport(name: String?): String {
         if (name?.contains("_") == true) {
-            CodegenConfigurator.LOGGER.warn("toModelImport (EXCLUDE): $name")
+            // CodegenConfigurator.LOGGER.warn("toModelImport (EXCLUDE): $name")
             val text = name
             var nextUpper = true
             var myText = ""
@@ -253,7 +280,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             }
             return super.toModelImport(myText)
         }
-        CodegenConfigurator.LOGGER.warn("toModelImport: $name")
+        //CodegenConfigurator.LOGGER.warn("toModelImport: $name")
         return super.toModelImport(name)
     }
 
