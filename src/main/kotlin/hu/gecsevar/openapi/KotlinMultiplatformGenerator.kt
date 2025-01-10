@@ -3,17 +3,9 @@ package hu.gecsevar.openapi
 import com.google.common.collect.ImmutableMap
 import com.samskivert.mustache.Mustache
 import com.samskivert.mustache.Template
-import gg.jte.CodeResolver
-import gg.jte.TemplateEngine
-import gg.jte.compiler.CodeType
-import gg.jte.resolve.DirectoryCodeResolver
 import org.openapitools.codegen.CodegenType
 import org.openapitools.codegen.SupportingFile
-import org.openapitools.codegen.api.TemplatingEngineAdapter
-import org.openapitools.codegen.api.TemplatingExecutor
-import org.openapitools.codegen.templating.HandlebarsEngineAdapter
 import java.io.Writer
-import java.nio.file.Path
 
 class KotlinMultiplatformGenerator : AbstractGenerator() {
     init {

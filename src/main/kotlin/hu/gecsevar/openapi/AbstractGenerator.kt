@@ -4,12 +4,12 @@ import com.github.jknack.handlebars.internal.lang3.StringUtils
 import com.google.common.collect.ImmutableMap
 import com.samskivert.mustache.Mustache
 import com.samskivert.mustache.Template
-import io.swagger.v3.oas.models.media.Schema
 import org.mozilla.javascript.ScriptRuntime
-import org.openapitools.codegen.*
-import org.openapitools.codegen.config.CodegenConfigurator
+import org.openapitools.codegen.CodegenConfig
+import org.openapitools.codegen.CodegenConstants
+import org.openapitools.codegen.CodegenProperty
+import org.openapitools.codegen.DefaultCodegen
 import org.openapitools.codegen.model.ModelsMap
-import org.openapitools.codegen.utils.ModelUtils
 import java.io.Writer
 import java.util.*
 
