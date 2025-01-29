@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "1.5.4"
+version = "1.5.5"
 
 repositories {
     mavenCentral()

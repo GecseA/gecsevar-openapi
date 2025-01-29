@@ -152,7 +152,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     /**
      * Mustache extension function
      *
-     * snake_case_text -> snakeCaseText
+     * snake_case_text -> SnakeCaseText
      */
     object ConvertDataTypeToCamelCase: Mustache.Lambda {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
@@ -161,7 +161,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             val snakeToCamel = Regex("_([a-zA-Z0-9])")
             val result = text?.replace(snakeToCamel) {
                 it.value.removePrefix("_").uppercase()
-            }
+            }?.replaceFirstChar { it.uppercase() }
             out?.write(result.toString())
         }
     }
