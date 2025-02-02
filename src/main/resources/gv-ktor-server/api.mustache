@@ -39,7 +39,7 @@ fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classna
         // Response
         /**
 {{#responses}}
-          * code = {{{code}}}, message = "{{{message}}}"{{^containerType}}{{#baseType}}, response: {{#lambda.convert_data_class_to_camel_case}}{{{baseType}}}{{/lambda.convert_data_class_to_camel_case}}{{/baseType}}{{/containerType}}{{#containerType}} response {{{containerType}}}: List<{{#lambda.convert_data_class_to_camel_case}}{{#baseType}}{{{baseType}}}{{/baseType}}{{/lambda.convert_data_class_to_camel_case}}> {{/containerType}}{{#hasMore}}{{/hasMore}}
+          * code = {{{code}}}, message = "{{{message}}}"{{^containerType}}{{#baseType}}, response: {{#lambda.convert_to_pascal_case}}{{{baseType}}}{{/lambda.convert_to_pascal_case}}{{/baseType}}{{/containerType}}{{#containerType}} response {{{containerType}}}: List<{{#lambda.convert_to_pascal_case}}{{#baseType}}{{{baseType}}}{{/baseType}}{{/lambda.convert_to_pascal_case}}> {{/containerType}}{{#hasMore}}{{/hasMore}}
 {{/responses}}
         {{#implicitHeaders}}
             @ApiImplicitParams({

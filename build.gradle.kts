@@ -5,15 +5,15 @@ val ossrhAccessUserName: String? by project
 val ossrhAccessUserToken: String? by project
 
 plugins {
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("jvm") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.10"
     id("com.gradleup.shadow") version "9.0.0-beta2"
     `maven-publish`
     signing
 }
 
 group = "hu.gecsevar"
-version = "1.5.5"
+version = "1.5.6"
 
 repositories {
     mavenCentral()
@@ -23,12 +23,13 @@ dependencies {
 //    https://github.com/OpenAPITools/openapi-generator/blob/v7.10.0/modules/openapi-generator/src/main/resources/kotlin-server/api_doc.mustache
     compileOnly("org.openapitools", "openapi-generator", "7.10.0")
     // https://mvnrepository.com/artifact/gg.jte/jte
-    implementation("gg.jte:jte:3.1.12")
+    implementation("gg.jte:jte:3.1.16")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.6.1")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.openapitools:openapi-generator:7.10.0")
 }
 
 tasks.test {

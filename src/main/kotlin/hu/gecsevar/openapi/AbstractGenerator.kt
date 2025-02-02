@@ -130,12 +130,11 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
     override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
         return super.addMustacheLambdas()
             .put("convert_path_to_fun", ConvertPathToFunction)
-            .put("convert_data_type_to_camel_case", ConvertDataTypeToCamelCase)
+            .put("convert_to_pascal_case", ConvertPascalCase)
             .put("convert_data_type_to_snake_case", ConvertDataTypeToSnakeCase)
-            .put("convert_data_class_to_camel_case", ConvertDataClassToCamelCase)
     }
 
-    object ConvertDataClassToCamelCase: Mustache.Lambda {
+    object ConvertPascalCase: Mustache.Lambda {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
             val text = frag?.execute()
 
