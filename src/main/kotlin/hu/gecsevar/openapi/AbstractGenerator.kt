@@ -16,49 +16,9 @@ import java.util.*
 
 abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
+    // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
     init {
-        defaultIncludes = HashSet(
-            mutableListOf(
-                "kotlin.Byte",
-                "kotlin.Short",
-                "kotlin.Int",
-                "kotlin.Long",
-                "kotlin.Float",
-                "kotlin.Double",
-                "kotlin.Boolean",
-                "kotlin.Char",
-                "kotlin.Array",
-                "kotlin.collections.List",
-                "kotlin.collections.Set",
-                "kotlin.collections.Map"
-            )
-        )
-
-        typeMapping = HashMap()
-        typeMapping["string"] = "String"
-        typeMapping["boolean"] = "Boolean"
-        typeMapping["integer"] = "Int"
-        typeMapping["integer+int32"] = "Int"
-        typeMapping["integer+int64"] = "Long"
-        typeMapping["float"] = "Float"
-        typeMapping["long"] = "Long"
-        typeMapping["double"] = "Double"
-        typeMapping["number"] = "Int"
-        typeMapping["date-time"] = "Instant"
-        typeMapping["date"] = "LocalDate"
-        typeMapping["file"] = "java.io.File"
-        typeMapping["array"] = "List"
-        typeMapping["list"] = "List"
-        typeMapping["map"] = "Map"
-        typeMapping["object"] = "Any"
-        typeMapping["binary"] = "Array<Byte>"
-        typeMapping["Date"] = "LocalDate"
-        typeMapping["DateTime"] = "Instant"
-        typeMapping["ByteArray"] = "Array<Byte>"
-
-        instantiationTypes["list"] = "listOf"
-        instantiationTypes["map"] = "mapOf"
-
+        // Also skip "import ..."
         languageSpecificPrimitives = HashSet(
             mutableListOf(
                 "Byte",
@@ -77,8 +37,55 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
                 "number",
                 "float",
+
+                "file",
             )
         )
+
+        defaultIncludes = HashSet(
+            mutableListOf(
+                "kotlin.Byte",
+                "kotlin.Short",
+                "kotlin.Int",
+                "kotlin.Long",
+                "kotlin.Float",
+                "kotlin.Double",
+                "kotlin.Boolean",
+                "kotlin.Char",
+                "kotlin.Array",
+                "kotlin.collections.List",
+                "kotlin.collections.Set",
+                "kotlin.collections.Map",
+
+            )
+        )
+
+        typeMapping = HashMap()
+        typeMapping["string"] = "String"
+        typeMapping["boolean"] = "Boolean"
+        typeMapping["integer"] = "Int"
+        typeMapping["integer+int32"] = "Int"
+        typeMapping["integer+int64"] = "Long"
+        typeMapping["float"] = "Float"
+        typeMapping["long"] = "Long"
+        typeMapping["double"] = "Double"
+        typeMapping["number"] = "Int"
+        typeMapping["date-time"] = "Instant"
+        typeMapping["date"] = "LocalDate"
+        typeMapping["file"] = "ByteArray"   // File as ByteArray
+        typeMapping["array"] = "List"
+        typeMapping["list"] = "List"
+        typeMapping["map"] = "Map"
+        typeMapping["object"] = "Any"
+        typeMapping["binary"] = "File"
+        typeMapping["Date"] = "LocalDate"
+        typeMapping["DateTime"] = "Instant"
+        typeMapping["ByteArray"] = "Array<Byte>"
+
+        instantiationTypes["list"] = "listOf"
+        instantiationTypes["map"] = "mapOf"
+
+
 
         importMapping = HashMap()
         importMapping["BigDecimal"] = "java.math.BigDecimal"
