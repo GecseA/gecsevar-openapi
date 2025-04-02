@@ -1,3 +1,7 @@
+rootProject.name = "gecsevar-openapi"
 
-rootProject.name = "hu.gecsevar.openapi"
+include("app")
 
+file("modules").listFiles()?.forEach { moduleBuild: File ->
+    includeBuild(moduleBuild)
+}
