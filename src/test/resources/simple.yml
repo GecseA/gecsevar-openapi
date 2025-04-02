@@ -1,0 +1,596 @@
+openapi: 3.0.3
+info:
+  title: GecseVa'r Admin Framework - OpenAPI 3.0
+  description: |
+    Some useful links:
+    - [The repository](https://github.com/GecseA)
+    - [The source API definition](https://github.com/../openapi.yaml)
+
+  termsOfService: https://gecsevar.hu/terms/
+  contact:
+    email: gecsevar@gmail.hu
+  license:
+    name:  license
+    url: https://www.gecsevar.hu/licenses/LICENSE-1.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more
+  url: https://www.gecsevar.hu
+servers:
+  - url: https://api.gecsevar.hu/
+tags:
+  - name: GecseVar Admin
+    description: Admin frontend edit URIs
+paths:
+  /admin/articles/{id}:
+    get:
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      parameters:
+        - name: id
+          in: path
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      description: Get article for edit
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleModel"
+  /admin/articles:
+    get:
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      description: Get articles
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          schema:
+            type: object
+            properties:
+              published:
+                type: boolean
+              category:
+                type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleModel"
+    post:
+      description: Create a new article and respond its ID
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleModel"
+      responses:
+        201:
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    $ref: "#/components/schemas/ResourceId"
+        400:
+          description: Error occurred
+    put:
+      description: Edit article
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleModel"
+      responses:
+        200:
+          description: 'Ok'
+        400:
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                properties:
+                  code:
+                    $ref: "#/components/schemas/ResponseErrorCodes"
+                  str:
+                    type: string
+
+  /admin/article-categories:
+    get:
+      description: Get available article categories
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      parameters:
+        - name: name
+          in: query
+          description: Filter by name - optional
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleCategoryModel"
+        404:
+          description: Error occurred
+          content:
+            application/json:
+              schema:
+                type: string
+
+    post:
+      description: Create new category by request
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleCategoryModel"
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      description: Edit article category
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleCategoryModel"
+      responses:
+        200:
+          description: OK
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /admin/file-manager/containers:
+    get:
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      parameters:
+        - name: path
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+      description: 'BAD'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FileContainerModel"
+    put:
+      description: Modify container value
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileContainerModel"
+      responses:
+        200:
+          description: Created
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      description: Create new container type
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileContainerModel"
+      responses:
+        201:
+          description: Created
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      description: 'BAD'
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      responses:
+        200:
+          description: Ok
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /admin/menu-items:
+    get:
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      description: Get drawer menu items as an array
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MenuItemModel"
+    put:
+      description: 'BAD'
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/MenuItemModel"
+      responses:
+        200:
+          description: Updated
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: string
+  /admin/file-manager/files:
+    get:
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      parameters:
+        - name: path
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+      description: 'BAD'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FileModel"
+    delete:
+      description: Delete file
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      parameters:
+        - name: id
+          in: query
+          description: ID of the file
+          required: true
+          schema:
+            $ref: "#/components/schemas/ResourceId"
+      responses:
+        200:
+          description: Deleted
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /admin/file-manager/files/upload:
+    post:
+      description: Save files
+      tags:
+        - GecseVar Admin
+      security:
+        - OAuth2:
+            - read
+            - write
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metas:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/FileModel"
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        201:
+          description: Created
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    ArticleModel:
+      type: object
+      required:
+        - id
+        - published
+        - slug
+        - categories
+        - creator
+        - createTime
+        - title
+        - cardImageUrl
+        - bannerImageUrl
+        - description
+        - content
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        published:
+          type: boolean
+        slug:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        creator:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+        title:
+          type: string
+        cardImageUrl:
+          type: string
+        bannerImageUrl:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+
+    ArticleCategoryModel:
+      type: object
+      required:
+        - id
+        - name
+        - active
+        - description
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        name:
+          type: string
+        active:
+          type: boolean
+        articleId:
+          type: integer
+          format: int32
+        articleTitle:
+          type: string
+    FileContainerModel:
+      type: object
+      required:
+        - id
+        - basePath
+        - path
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        basePath:
+          type: string
+        path:
+          type: string
+    MenuItemModel:
+      type: object
+      required:
+        - id
+        - label
+        - level
+        - linkType
+        - articleId
+        - articleCategoryId
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        label:
+          type: string
+        level:
+          type: string
+        linkType:
+          $ref: '#/components/schemas/MenuLinkType'
+        articleId:
+          type: integer
+          format: int32
+          default: -1
+          description: Can't be null, it will be UNDEFINED on web and MUI elements lost control
+        articleCategoryId:
+          type: integer
+          format: int32
+          default: -1
+          description: Can't be null, it will be UNDEFINED on web and MUI elements lost control
+    MenuLinkType:
+      type: string
+      enum:
+        - NONE
+        - ARTICLE
+        - CATEGORY
+    FileModel:
+      type: object
+      required:
+        - id
+        - pathId
+        - path
+        - name
+        - type
+        - meta
+        - usages
+        - usageArticleIds
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        pathId:
+          $ref: "#/components/schemas/ResourceId"
+        path:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        meta:
+          type: string
+        validFrom:
+          type: string
+          format: date-time
+        validTo:
+          type: string
+          format: date-time
+        usages:
+          type: integer
+          format: int32
+        usageArticleIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceId"
+    MenuButtonModel:
+      type: object
+      required:
+        - title
+        - route
+        - element
+      properties:
+        title:
+          type: string
+        route:
+          type: string
+        element:
+          type: string
+        validFrom:
+          type: string
+          format: date-time
+        validTo:
+          type: string
+          format: date-time
+    ResourceId:
+      type: integer
+      format: int32
+    ResponseErrorCodes:
+      type: string
+      enum:
+        - ARTICLE_DUPLICATE_SLUG
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
