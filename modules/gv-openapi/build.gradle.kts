@@ -54,9 +54,6 @@ publishing {
             setUrl(file("../../../local-repo"))
         }
     }
-    publications {
-        create<MavenPublication>("maven") { from(components["java"]) }
-    }
 }
 
 publishing {
@@ -72,6 +69,7 @@ publishing {
             from(components["kotlin"])
             artifact(tasks.getByName("kotlinSourcesJar"))
             artifact(tasks.getByName("javadocJar"))
+            //artifact(tasks.getByName("sourcesJar"))
             pom {
                 name.set(rootProject.name)
                 packaging = "jar"
@@ -109,4 +107,3 @@ signing {
     useGpgCmd()
     sign(publishing.publications)
 }
-
