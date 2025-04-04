@@ -33,7 +33,8 @@ application {
 }
 
 repositories {
-    maven {
+    ivy {
+        name = "localrepo"
         url = uri(project.file("../../local-repo"))
     }
     mavenCentral()
@@ -41,7 +42,7 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("hu.gecsevar:hu.gecsevar.openapi:1.5.6")
+        classpath("hu.gecsevar:gv-openapi")
     }
 }
 
@@ -66,6 +67,7 @@ afterEvaluate() {
 dependencies {
     implementation("org.sample:number-utils")
     implementation("org.sample:string-utils")
+    implementation("hu.gecsevar:gv-openapi")
 
     implementation("io.ktor:ktor-server-core-jvm:${Versions.KTOR}")
     implementation("io.ktor:ktor-server-auth-jvm:${Versions.KTOR}")
@@ -75,6 +77,5 @@ dependencies {
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${Versions.KOTLIN}")
-
 }
 

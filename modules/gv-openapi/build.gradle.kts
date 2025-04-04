@@ -8,8 +8,8 @@ plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
     id("com.gradleup.shadow") version "9.0.0-beta2"
-    `maven-publish`
     `java-library`
+    `maven-publish`
     signing
 }
 
@@ -17,7 +17,7 @@ group = "hu.gecsevar"
 version = "1.5.7"
 
 repositories {
-    maven {
+    ivy {
         name = "localrepo"
         url = uri(file("../../../local-repo"))
     }
@@ -34,6 +34,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.6.1")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
     testImplementation("org.openapitools:openapi-generator:7.12.0")
 }
 
@@ -46,16 +48,16 @@ java {
     withSourcesJar()
 }
 
-//publishing {
-//    repositories {
-//        ivy {
-//            setUrl(file("../../../local-repo"))
-//        }
-//    }
-//    publications {
-//        create<MavenPublication>("maven") { from(components["java"]) }
-//    }
-//}
+publishing {
+    repositories {
+        ivy {
+            setUrl(file("../../../local-repo"))
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") { from(components["java"]) }
+    }
+}
 
 publishing {
     repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
