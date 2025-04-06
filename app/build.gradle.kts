@@ -65,8 +65,6 @@ afterEvaluate() {
 }
 
 dependencies {
-    implementation("org.sample:number-utils")
-    implementation("org.sample:string-utils")
     implementation("hu.gecsevar:gv-openapi")
 
     implementation("io.ktor:ktor-server-core-jvm:${Versions.KTOR}")
