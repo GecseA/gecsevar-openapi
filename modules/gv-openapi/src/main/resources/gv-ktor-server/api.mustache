@@ -8,7 +8,7 @@ interface {{classname}} {
 
 {{#operations}}
 {{#operation}}
-    suspend fun {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call: ApplicationCall)
+    suspend fun {{{operationId}}}(call: ApplicationCall)
 {{/operation}}
 {{/operations}}
 }
@@ -28,11 +28,11 @@ fun Route.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}(api: {{classna
      * description  : {{{notes}}}
      */
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}") {
-        api.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{#lambda.convert_path_to_fun}}{{path}}{{/lambda.convert_path_to_fun}}(call)
+        api.{{{operationId}}}(call)
         // Request
-{{#pathParams}}        // val {{baseName}} = call.parameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}.to{{{dataType}}}(){{^last}}{{/last}}
+{{#pathParams}}        // val {{baseName}} = call.parameters["{{baseName}}"]{{^required}}?{{/required}}.to{{{dataType}}}() {{#required}}?: throw IllegalArgumentException("Invalid {{baseName}}"){{/required}}{{^last}}{{/last}}
 {{/pathParams}}
-{{#queryParams}}        // val {{baseName}} = call.request.queryParameters["{{baseName}}"]{{#required}}!!{{/required}}{{^required}}?{{/required}}{{#isPrimitiveType}}.to{{{dataType}}}(){{/isPrimitiveType}}{{^last}}{{/last}}
+{{#queryParams}}        // val {{baseName}} = call.request.queryParameters["{{baseName}}"]{{^required}}?{{/required}}{{#isPrimitiveType}}.to{{{dataType}}}(){{/isPrimitiveType}} {{#required}}?: throw IllegalArgumentException("Invalid {{baseName}}"){{/required}}{{^last}}{{/last}}
 {{/queryParams}}
 {{#bodyParams}}        // val request = call.receive<{{#isArray}}{{^isList}}List<{{items.dataType}}>{{/isList}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}>(){{^last}}{{/last}}
 {{/bodyParams}}

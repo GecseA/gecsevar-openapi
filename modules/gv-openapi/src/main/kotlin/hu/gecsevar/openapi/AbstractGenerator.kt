@@ -196,7 +196,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
             var text = frag?.execute()
             text = text?.replace("/\\{(.*?)\\}".toRegex()) {
-                "_with" + it.value.replace("{", "").replace("}", "").uppercase()
+                "By" + it.value.replace("{", "").replace("}", "").uppercase()
             }?.replaceFirst("/", "")
             var nextUpper = true
             var myText = ""

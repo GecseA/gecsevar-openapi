@@ -19,9 +19,93 @@ externalDocs:
 servers:
   - url: https://api.gecsevar.hu/
 tags:
+  - name: Test 1
+    description: Main testing paths, params etc.
   - name: GecseVar Admin
     description: Admin frontend edit URIs
 paths:
+  /first/tests/{id}/{name}:
+    get:
+      operationId: getFirstTestByIdAndName
+      tags:
+        - Test 1
+      parameters:
+        - name: id
+          in: path
+          description: An ID as a number
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: name
+          in: path
+          description: A NAME as a string
+          required: true
+          schema:
+            type: string
+      description: Get a test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleModel"
+  /second/tests/{id}/{name}:
+    get:
+# missing      operationId: getFirstTestByIdAndName
+      tags:
+        - Test 1
+      parameters:
+        - name: id
+          in: path
+          description: An ID as a number
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: name
+          in: path
+          description: A NAME as a string
+          required: true
+          schema:
+            type: string
+      description: Get a test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleModel"
+  /third/tests/datas:
+    get:
+      tags:
+        - Test 1
+      parameters:
+        - name: id
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: path
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: string
+      description: Another test
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleModel"
+
   /admin/articles/{id}:
     get:
       tags:
