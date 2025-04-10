@@ -21,8 +21,6 @@ servers:
 tags:
   - name: Test 1
     description: Main testing paths, params etc.
-  - name: GecseVar Admin
-    description: Admin frontend edit URIs
 paths:
   /first/tests/{id}/{name}:
     get:
@@ -50,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArticleModel"
+                $ref: "#/components/schemas/TestDto1"
   /second/tests/{id}/{name}:
     get:
 # missing      operationId: getFirstTestByIdAndName
@@ -77,7 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArticleModel"
+                $ref: "#/components/schemas/TestDto1"
   /third/tests/datas:
     get:
       tags:
@@ -104,442 +102,55 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ArticleModel"
+                  $ref: "#/components/schemas/TestDto1"
 
-  /admin/articles/{id}:
-    get:
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      parameters:
-        - name: id
-          in: path
-          description: ''
-          required: true
-          schema:
-            type: integer
-            format: int32
-      description: Get article for edit
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArticleModel"
-  /admin/articles:
-    get:
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      description: Get articles
-      parameters:
-        - name: filter
-          in: query
-          required: false
-          schema:
-            type: object
-            properties:
-              published:
-                type: boolean
-              category:
-                type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ArticleModel"
-    post:
-      description: Create a new article and respond its ID
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ArticleModel"
-      responses:
-        201:
-          description: 'Created'
-          content:
-            application/json:
-              schema:
-                properties:
-                  id:
-                    $ref: "#/components/schemas/ResourceId"
-        400:
-          description: Error occurred
-    put:
-      description: Edit article
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ArticleModel"
-      responses:
-        200:
-          description: 'Ok'
-        400:
-          description: 'Bad request'
-          content:
-            application/json:
-              schema:
-                properties:
-                  code:
-                    $ref: "#/components/schemas/ResponseErrorCodes"
-                  str:
-                    type: string
-
-  /admin/article-categories:
-    get:
-      description: Get available article categories
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      parameters:
-        - name: name
-          in: query
-          description: Filter by name - optional
-          required: false
-          schema:
-            type: string
-      responses:
-        200:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ArticleCategoryModel"
-        404:
-          description: Error occurred
-          content:
-            application/json:
-              schema:
-                type: string
-
-    post:
-      description: Create new category by request
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ArticleCategoryModel"
-      responses:
-        201:
-          description: Created
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: string
-    put:
-      description: Edit article category
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ArticleCategoryModel"
-      responses:
-        200:
-          description: OK
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-  /admin/file-manager/containers:
-    get:
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      parameters:
-        - name: path
-          in: query
-          description: ''
-          required: false
-          schema:
-            type: string
-      description: 'BAD'
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/FileContainerModel"
-    put:
-      description: Modify container value
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FileContainerModel"
-      responses:
-        200:
-          description: Created
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-    post:
-      description: Create new container type
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FileContainerModel"
-      responses:
-        201:
-          description: Created
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-    delete:
-      description: 'BAD'
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      responses:
-        200:
-          description: Ok
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-  /admin/menu-items:
-    get:
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      description: Get drawer menu items as an array
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/MenuItemModel"
-    put:
-      description: 'BAD'
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/MenuItemModel"
-      responses:
-        200:
-          description: Updated
-        400:
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: string
-  /admin/file-manager/files:
-    get:
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      parameters:
-        - name: path
-          in: query
-          description: ''
-          required: false
-          schema:
-            type: string
-      description: 'BAD'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/FileModel"
-    delete:
-      description: Delete file
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      parameters:
-        - name: id
-          in: query
-          description: ID of the file
-          required: true
-          schema:
-            $ref: "#/components/schemas/ResourceId"
-      responses:
-        200:
-          description: Deleted
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-  /admin/file-manager/files/upload:
-    post:
-      description: Save files
-      tags:
-        - GecseVar Admin
-      security:
-        - OAuth2:
-            - read
-            - write
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                metas:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/FileModel"
-                files:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
-      responses:
-        201:
-          description: Created
-        400:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
 components:
   schemas:
-    ArticleModel:
+    TestDto1:
       type: object
       required:
         - id
-        - published
-        - slug
-        - categories
-        - creator
-        - createTime
-        - title
-        - cardImageUrl
-        - bannerImageUrl
-        - description
-        - content
+        - myBool
+        - myString
+        - myStringId
+        - aDateTime
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"
-        published:
+        myBool:
           type: boolean
-        slug:
+          description: Quite nice description for myBool
+        myString:
           type: string
-        categories:
+        myStringId:
+          type: string
+# TODO          format: uuid
+        myNumber:
+          type: integer
+          format: int32
+        myNumber2:
+          type: integer
+          format: int64
+        aDateTime:
+          type: string
+          format: date-time
+        aDate:
+          type: string
+          format: date
+        aTime:
+          type: string
+          format: time
+        myEnum:
+          type: string
+          enum:
+            - MY_ENUM_1
+            - MY_ENUM_2
+            - MY_ENUM_3
+        myArray:
           type: array
           items:
             type: string
-        creator:
-          type: string
-        createTime:
-          type: string
-          format: date-time
-        title:
-          type: string
-        cardImageUrl:
-          type: string
-        bannerImageUrl:
-          type: string
-        description:
-          type: string
-        content:
-          type: string
-
-    ArticleCategoryModel:
+    TestDto2:
       type: object
       required:
         - id
@@ -551,6 +162,7 @@ components:
           $ref: "#/components/schemas/ResourceId"
         name:
           type: string
+          description: Quite nice description for name
         active:
           type: boolean
         articleId:
