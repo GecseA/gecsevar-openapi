@@ -48,7 +48,7 @@ buildscript {
 
 tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
     generatorName.set("gv-ktor-server")
-    inputSpec.set("$rootDir/app/src/main/resources/simple.yml")
+    inputSpec.set("$rootDir/app/src/main/resources/test_1.yml")
     outputDir.set("${layout.buildDirectory.get()}/generated/")
     apiPackage.set("hu.gecsevar.plugins.api")
     modelPackage.set("hu.gecsevar.database.view")
@@ -73,6 +73,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.KTOR}")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
 
+    testImplementation("io.ktor:ktor-server-test-host:${Versions.KTOR}")
+    testImplementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${Versions.KOTLIN}")
 }

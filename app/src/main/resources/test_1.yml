@@ -1,30 +1,68 @@
 openapi: 3.0.3
 info:
-  title: GecseVa'r Admin Framework - OpenAPI 3.0
+  title: GecseVa'r OpenAPI generator
   description: |
-    Some useful links:
-    - [The repository](https://github.com/GecseA)
-    - [The source API definition](https://github.com/../openapi.yaml)
-
+    #### - [The repository](https://github.com/GecseA/gecsevar-hu-backend)
+    #### - This file also *contains* recommendations and naming conventions for URI paths and schemas
   termsOfService: https://gecsevar.hu/terms/
   contact:
     email: gecsevar@gmail.hu
   license:
     name:  license
     url: https://www.gecsevar.hu/licenses/LICENSE-1.0.html
-  version: 1.0.0
+  version: 1.6.0
 externalDocs:
   description: Find out more
   url: https://www.gecsevar.hu
 servers:
-  - url: https://api.gecsevar.hu/
+  - url: https://test.gecsevar.hu/
 tags:
   - name: Test 1
-    description: Main testing paths, params etc.
+    description: Paths and Schemas for cover most functionalities
 paths:
-  /first/tests/{id}/{name}:
+  /first/my-resources:
     get:
-      operationId: getFirstTestByIdAndName
+      operationId: getFirstTestsByIdAndName
+      description: "Refer to [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986) \n\n
+        **URI Maximum Length:** *The total URI, including the Path and the Query, **MUST NOT** exceed 2000 characters in length including any formatting codes such as commas, underscores, question marks, hyphens, plus or slashes* \n\n
+        **URI Naming Conventions:** *URLs **MUST** follow the standard naming convention as described below:* \n\n
+        - the URI **MUST** be specified in all lower case \n\n
+        - only hyphens ‘-‘ can be used to separate words or path parameters for readability (no spaces or underscores) \n\n
+        - underscores ‘_’ or camelCase can be used to separate words in query parameter names but not as part of the base URI \n\n
+        \n\n
+        **Resource Names:** *API Designers **MUST** follow these principles when creating a REST API:* \n\n
+        - Nouns **MUST** be used - not verbs for names. \n\n
+        - Resource names **MUST** be plural. Where the plural of a resource is non-standard, such as leaf or fish, then either choose a more appropriate noun, or use the proper plural - leaves, fishes. \n\n
+        - Resource names **MUST** be lower-case and use only alphabetic characters and hyphens. \n\n
+        - The hyphen character, ( - ), **MUST** be used as a word separator in URI path parameters. \n\n
+        Note that **this is the only place** where hyphens are used as a word separator. In nearly all other situations *camelCase* OR an *underscore* character, ( _ ), **MUST** be used. \n\n
+         "
+      tags:
+        - Test 1
+      parameters:
+        - name: resourceId
+          in: query
+          description: "Query Parameter Names \n\n
+            - Literals/expressions in query strings **SHOULD** be separated using underscore ( _ ). \n\n
+            - Query parameters values MUST be percent-encoded. Consider that AWS requires query paramter names to conform to the regex ^[a-zA-Z0-9._$-]+$ \n\n
+            - Query parameters **MUST** start with a letter and **SHOULD** be either camelCase or snake_case, consistent with the case standard employed for field names. \n\n
+            - Query parameters **SHOULD** be optional. \n\n
+            - Query parameters **SHOULD** not contain characters that are not URL safe. \n\n
+            "
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestDto1"
+  /second/my-other-resources/{id}/{name}:
+    get:
+      operationId: getSecondTestsByIdAndName
+      description: Get a test
       tags:
         - Test 1
       parameters:
@@ -41,7 +79,6 @@ paths:
           required: true
           schema:
             type: string
-      description: Get a test
       responses:
         "200":
           description: OK
@@ -49,34 +86,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TestDto1"
-  /second/tests/{id}/{name}:
-    get:
-# missing      operationId: getFirstTestByIdAndName
-      tags:
-        - Test 1
-      parameters:
-        - name: id
-          in: path
-          description: An ID as a number
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: name
-          in: path
-          description: A NAME as a string
-          required: true
-          schema:
-            type: string
-      description: Get a test
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TestDto1"
-  /third/tests/datas:
+  /third/some-others/datas:
     get:
       tags:
         - Test 1
@@ -108,6 +118,14 @@ components:
   schemas:
     TestDto1:
       type: object
+      description: "**Field Names:** The data model for the representation **MUST** conform to the *JSON* specification. \n\n
+        The values may themselves be objects, strings, numbers, booleans, or arrays of objects. \n\n
+        - Key names **MUST** be either camelCase or snake_case, however case MUST be used consistently. \n\n
+        foo \n\n
+        barBaz OR bar_baz \n\n
+        - Prefix such as is or has **SHOULD NOT** be used for keys of type boolean. \n\n
+        - Fields that represent arrays **SHOULD** be named using plural nouns (e.g. authenticators-contains one or more authenticators, products-contains one or more products). \n\n
+        "
       required:
         - id
         - myBool
@@ -134,9 +152,19 @@ components:
         aDateTime:
           type: string
           format: date-time
+          description: "**ISO8601 Formatted Dates** \n\n
+            All implementations using dates **MUST** conform to ISO 8601 format. \n\n
+            In ISO 8601, date and time values are ordered from the largest to smallest unit of time: year, month (or week), day, hour, minute, second, and fraction of second.  \n\n
+            "
         aDate:
           type: string
           format: date
+          description: "**Date Field Naming Conventions** \n\n
+            *When using date fields, the following naming conventions for these fields should be used:* \n\n
+            - For properties requiring both date and time, services MUST use the suffix datetime, e.g. startDateTime 	start_datetime. \n\n
+            - For properties requiring only date information without specifying time, services MUST use the suffix date, e.g. birthDate birth_date. \n\n
+            - For properties requiring only time information without specifying date, services MUST use the suffix time, e.g. startTime \n\n
+            "
         aTime:
           type: string
           format: time
