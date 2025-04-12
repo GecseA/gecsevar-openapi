@@ -45,3 +45,4 @@ bin/
 /gradle.properties
 /libs/gv-openapi/gradle.properties
 /modules/gv-openapi/gradle.properties
+/app/src/main/resources/openapi-generator-cli-*.jar
