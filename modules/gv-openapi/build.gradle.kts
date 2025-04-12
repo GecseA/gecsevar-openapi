@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "1.6.0"
+version = "1.7.0"
 
 repositories {
     ivy {
