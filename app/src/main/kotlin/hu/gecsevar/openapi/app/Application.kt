@@ -1,8 +1,8 @@
 package hu.gecsevar.openapi.app
 
-import hu.gecsevar.database.view.TestDto1
+import hu.gecsevar.openapi.app.database.view.TestDto1
+import hu.gecsevar.openapi.app.database.view.TestDto2
 import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
@@ -18,12 +18,12 @@ fun main(args: Array<String>) {
         id = 111,
         myBool = true,
         myString = "Hello World!",
-        myStringId = Uuid.random().toString(),
+        myStringId = Uuid.random(),
         myNumber = 234234,
         myNumber2 = 234235544,
         aDateTime = Clock.System.now(),
         aDate = Clock.System.now().toLocalDateTime(TimeZone.UTC).date,
-        aTime = "wrong",
+        aTime = Clock.System.now().toLocalDateTime(TimeZone.UTC).time,
         myEnum = TestDto1.MyEnum.MY_ENUM_1,
         myArray = listOf(
             "string 1",
@@ -32,20 +32,23 @@ fun main(args: Array<String>) {
         )
     )
 
-    println(Json.encodeToString(dto1))
-//    val article = ArticleModel(
-//        id = 0,
-//        published = false,
-//        slug = "my-slug",
-//        categories = listOf("article"),
-//        creator = "AstrA",
-//        createTime = Clock.System.now(),
-//        title = "My Title",
-//        cardImageUrl = "",
-//        bannerImageUrl = "",
-//        description = "Good description",
-//        content = "Fun content"
-//    )
+    val dto2 = TestDto2(
+        id = 324243,
+        myChildUnderscore1 = dto1,
+        myChildsUnderscore1 = listOf(dto1),
+        myChildUnderscore2 = null,
+        myChildsUnderscore2 = null
+    )
 
-//    println(Json.encodeToString(article))
+    val dto2_2 = TestDto2(
+        id = 324243,
+        myChildUnderscore1 = dto1,
+        myChildsUnderscore1 = listOf(dto1),
+        myChildUnderscore2 = dto1,
+        myChildsUnderscore2 = listOf(dto1),
+    )
+
+    println(Json.encodeToString(dto1))
+    println(Json.encodeToString(dto2))
+    println(Json.encodeToString(dto2_2))
 }

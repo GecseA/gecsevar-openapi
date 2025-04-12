@@ -50,9 +50,10 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
     generatorName.set("gv-ktor-server")
     inputSpec.set("$rootDir/app/src/main/resources/test_1.yml")
     outputDir.set("${layout.buildDirectory.get()}/generated/")
-    apiPackage.set("hu.gecsevar.plugins.api")
-    modelPackage.set("hu.gecsevar.database.view")
+    apiPackage.set("hu.gecsevar.openapi.app.plugins.api")
+    modelPackage.set("hu.gecsevar.openapi.app.database.view")
 }
+
 tasks.compileKotlin {
     dependsOn("openApiGenerateGecsevar")
 }

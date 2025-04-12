@@ -15,7 +15,7 @@ externalDocs:
   description: Find out more
   url: https://www.gecsevar.hu
 servers:
-  - url: https://test.gecsevar.hu/
+  - url: https://test-api.gecsevar.hu/
 tags:
   - name: Test 1
     description: Paths and Schemas for cover most functionalities
@@ -86,8 +86,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TestDto1"
-  /third/some-others/datas:
+  /third/some-others/data:
     get:
+      operationId: getThirdSomeOthersData
+      description: Another test
       tags:
         - Test 1
       parameters:
@@ -103,7 +105,6 @@ paths:
           required: true
           schema:
             type: string
-      description: Another test
       responses:
         "200":
           description: OK
@@ -142,7 +143,7 @@ components:
           type: string
         myStringId:
           type: string
-# TODO          format: uuid
+          format: uuid
         myNumber:
           type: integer
           format: int32
@@ -182,132 +183,53 @@ components:
       type: object
       required:
         - id
-        - name
-        - active
-        - description
+        - myChild_1
+        - myChilds_1
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"
-        name:
-          type: string
-          description: Quite nice description for name
-        active:
-          type: boolean
-        articleId:
-          type: integer
-          format: int32
-        articleTitle:
-          type: string
-    FileContainerModel:
+        myChild_1:
+           $ref: "#/components/schemas/TestDto1"
+        myChilds_1:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestDto1"
+        myChild_2:
+          $ref: "#/components/schemas/TestDto1"
+        myChilds_2:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestDto1"
+    TestDto3:
       type: object
       required:
         - id
-        - basePath
-        - path
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"
-        basePath:
-          type: string
-        path:
-          type: string
-    MenuItemModel:
-      type: object
-      required:
-        - id
-        - label
-        - level
-        - linkType
-        - articleId
-        - articleCategoryId
-      properties:
-        id:
-          $ref: "#/components/schemas/ResourceId"
-        label:
-          type: string
-        level:
-          type: string
-        linkType:
-          $ref: '#/components/schemas/MenuLinkType'
-        articleId:
+        numberId:
           type: integer
           format: int32
           default: -1
           description: Can't be null, it will be UNDEFINED on web and MUI elements lost control
-        articleCategoryId:
-          type: integer
-          format: int32
-          default: -1
-          description: Can't be null, it will be UNDEFINED on web and MUI elements lost control
-    MenuLinkType:
+        anEnum:
+          $ref: "#/components/schemas/MyEnum"
+    MyEnum:
       type: string
       enum:
         - NONE
-        - ARTICLE
-        - CATEGORY
-    FileModel:
-      type: object
-      required:
-        - id
-        - pathId
-        - path
-        - name
-        - type
-        - meta
-        - usages
-        - usageArticleIds
-      properties:
-        id:
-          $ref: "#/components/schemas/ResourceId"
-        pathId:
-          $ref: "#/components/schemas/ResourceId"
-        path:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-        meta:
-          type: string
-        validFrom:
-          type: string
-          format: date-time
-        validTo:
-          type: string
-          format: date-time
-        usages:
-          type: integer
-          format: int32
-        usageArticleIds:
-          type: array
-          items:
-            $ref: "#/components/schemas/ResourceId"
-    MenuButtonModel:
-      type: object
-      required:
-        - title
-        - route
-        - element
-      properties:
-        title:
-          type: string
-        route:
-          type: string
-        element:
-          type: string
-        validFrom:
-          type: string
-          format: date-time
-        validTo:
-          type: string
-          format: date-time
+        - ONE
+        - TWO
+        - FOUR
+        - OH_YEAH_THREE
     ResourceId:
       type: integer
       format: int32
     ResponseErrorCodes:
       type: string
       enum:
-        - ARTICLE_DUPLICATE_SLUG
+        - THIS_IS_BIG_ERROR
+        - THIS_IS_NOT_TO_BIG
   securitySchemes:
     OAuth2:
       type: oauth2

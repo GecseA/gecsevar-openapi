@@ -56,12 +56,12 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 "kotlin.collections.List",
                 "kotlin.collections.Set",
                 "kotlin.collections.Map",
-
             )
         )
 
         typeMapping = HashMap()
         typeMapping["string"] = "String"
+        typeMapping["UUID"] = "Uuid"
         typeMapping["boolean"] = "Boolean"
         typeMapping["integer"] = "Int"
         typeMapping["integer+int32"] = "Int"
@@ -72,6 +72,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["number"] = "Int"
         typeMapping["date-time"] = "Instant"
         typeMapping["date"] = "LocalDate"
+        typeMapping["time"] = "LocalTime"
         typeMapping["file"] = "ByteArray"   // File as ByteArray
         typeMapping["array"] = "List"
         typeMapping["list"] = "List"
@@ -85,11 +86,9 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         instantiationTypes["list"] = "listOf"
         instantiationTypes["map"] = "mapOf"
 
-
-
         importMapping = HashMap()
         importMapping["BigDecimal"] = "java.math.BigDecimal"
-        importMapping["UUID"] = "java.util.UUID"
+        importMapping["UUID"] = "kotlin.uuid.Uuid; import kotlin.uuid.ExperimentalUuidApi"
         importMapping["File"] = "java.io.File"
         importMapping["Date"] = "java.util.Date"
         importMapping["Timestamp"] = "kotlinx.datetime.Instant"
@@ -139,9 +138,19 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             .put("convert_path_to_fun", ConvertPathToFunction)
             .put("convert_to_pascal_case", ConvertPascalCase)
             .put("convert_data_type_to_snake_case", ConvertDataTypeToSnakeCase)
+            .put("opt_in_requirement", OptInRequirement)
     }
 
-    object ConvertPascalCase: Mustache.Lambda {
+    object OptInRequirement: Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+            val text = frag?.execute()
+
+            if (text == "Uuid") {
+                out?.write("@OptIn(ExperimentalUuidApi::class) ")
+            }
+        }
+    }
+            object ConvertPascalCase: Mustache.Lambda {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
             val text = frag?.execute()
 
