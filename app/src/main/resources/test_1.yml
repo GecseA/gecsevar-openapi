@@ -8,7 +8,7 @@ info:
   contact:
     email: gecsevar@gmail.hu
   license:
-    name:  license
+    name: License
     url: https://www.gecsevar.hu/licenses/LICENSE-1.0.html
   version: 1.7.0
 externalDocs:
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TestDto1"
+                $ref: "#/components/schemas/TestDto2"
   /third/some-others/data:
     get:
       operationId: getThirdSomeOthersData
@@ -113,7 +113,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TestDto1"
+                  $ref: "#/components/schemas/TestDto3"
 
 components:
   schemas:

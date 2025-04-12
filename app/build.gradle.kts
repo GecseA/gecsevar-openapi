@@ -3,7 +3,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 // https://docs.gradle.org/current/userguide/composite_builds.html#defining_composite_builds
 object Versions {
     const val KOTLIN    = "2.1.20"
-    const val KTOR      = "3.1.1"
+    const val KTOR      = "3.1.2"
     const val EXPOSED   = "0.60.0"
     const val POSTGRES  = "42.7.5"
     const val H2        = "2.3.232"
