@@ -1,7 +1,9 @@
 package hu.gecsevar.openapi.app
 
+import hu.gecsevar.openapi.app.database.view.MyEnum
 import hu.gecsevar.openapi.app.database.view.TestDto1
 import hu.gecsevar.openapi.app.database.view.TestDto2
+import hu.gecsevar.openapi.app.database.view.TestDto3
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -48,7 +50,18 @@ fun main(args: Array<String>) {
         myChildsUnderscore2 = listOf(dto1),
     )
 
+    val dto3 = TestDto3(
+        id = 3423523,
+        numberId = null,
+        anEnum = MyEnum.TWO,
+        mySubChild = listOf(
+            dto2,
+            dto2_2,
+        )
+    )
+
     println(Json.encodeToString(dto1))
     println(Json.encodeToString(dto2))
     println(Json.encodeToString(dto2_2))
+    println(Json.encodeToString(dto3))
 }

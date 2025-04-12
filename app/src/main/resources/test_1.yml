@@ -214,6 +214,10 @@ components:
           description: Can't be null, it will be UNDEFINED on web and MUI elements lost control
         anEnum:
           $ref: "#/components/schemas/MyEnum"
+        mySubChild:
+          type: array
+          items:
+            $ref: "#/components/schemas/TestDto2"
     MyEnum:
       type: string
       enum:
