@@ -21,7 +21,7 @@ kotlin {
     jvmToolchain(21)
 
     sourceSets {
-        getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated/hu")
+        getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated")
     }
 }
 
