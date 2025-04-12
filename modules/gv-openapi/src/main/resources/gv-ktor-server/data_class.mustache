@@ -1,4 +1,3 @@
-
 import kotlinx.serialization.Serializable
 
 /**
@@ -21,10 +20,10 @@ data class {{classname}}(
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInPascalCase}}}/*(val value: {{{dataType}}})*/{
+    enum class {{{nameInPascalCase}}} {
     {{#allowableValues}}
         {{#enumVars}}
-            {{&name}} /*({{{value}}})*/{{^-last}},{{/-last}}{{#-last}}{{/-last}}
+            {{&name}}{{^-last}},{{/-last}}
         {{/enumVars}}
     {{/allowableValues}}
     }

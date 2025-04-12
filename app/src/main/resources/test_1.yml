@@ -204,6 +204,7 @@ components:
       type: object
       required:
         - id
+        - numberId
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"

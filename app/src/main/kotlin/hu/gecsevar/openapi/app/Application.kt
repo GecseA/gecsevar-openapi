@@ -52,7 +52,7 @@ fun main(args: Array<String>) {
 
     val dto3 = TestDto3(
         id = 3423523,
-        numberId = null,
+        numberId = -1,
         anEnum = MyEnum.TWO,
         mySubChild = listOf(
             dto2,
