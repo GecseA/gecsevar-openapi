@@ -40,7 +40,7 @@ paths:
       tags:
         - Test 1
       parameters:
-        - name: resourceId
+        - name: resourceStringId
           in: query
           description: "Query Parameter Names \n\n
             - Literals/expressions in query strings **SHOULD** be separated using underscore ( _ ). \n\n
@@ -130,9 +130,9 @@ components:
       required:
         - id
         - myBool
-        - myString
         - myStringId
         - aDateTime
+        - myOtherEnum
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"
@@ -175,6 +175,12 @@ components:
             - MY_ENUM_1
             - MY_ENUM_2
             - MY_ENUM_3
+        myOtherEnum:
+          type: string
+          enum:
+            - MY_OTHER_ENUM_1
+            - MY_OTHER_ENUM_2
+            - MY_OTHER_ENUM_3
         myArray:
           type: array
           items:

@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class {{classname}}(
     {{#vars}}
-        {{#lambda.opt_in_requirement}}{{{dataType}}}{{/lambda.opt_in_requirement}}val {{{name}}}:{{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{#lambda.convert_to_pascal_case}}{{{dataType}}}{{/lambda.convert_to_pascal_case}}{{/isEnum}}{{#isArray}}{{^isList}}<{{#lambda.convert_to_pascal_case}}{{items.dataType}}{{/lambda.convert_to_pascal_case}}>{{/isList}}{{/isArray}}{{^required}}? = null{{/required}},
+        {{#lambda.opt_in_requirement}}{{{dataType}}}{{/lambda.opt_in_requirement}}val {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{#lambda.convert_to_pascal_case}}{{{dataType}}}{{/lambda.convert_to_pascal_case}}{{/isEnum}}{{#isArray}}{{^isList}}<{{#lambda.convert_to_pascal_case}}{{items.dataType}}{{/lambda.convert_to_pascal_case}}>{{/isList}}{{/isArray}}{{^required}}? = null{{/required}},
     {{/vars}}
 ) {
 {{#hasEnums}}

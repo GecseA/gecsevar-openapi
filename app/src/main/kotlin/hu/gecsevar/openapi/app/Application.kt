@@ -27,11 +27,12 @@ fun main(args: Array<String>) {
         aDate = Clock.System.now().toLocalDateTime(TimeZone.UTC).date,
         aTime = Clock.System.now().toLocalDateTime(TimeZone.UTC).time,
         myEnum = TestDto1.MyEnum.MY_ENUM_1,
+        myOtherEnum = TestDto1.MyOtherEnum.MY_OTHER_ENUM_3,
         myArray = listOf(
             "string 1",
             "string 2",
             "string 3",
-        )
+        ),
     )
 
     val dto2 = TestDto2(
@@ -42,7 +43,7 @@ fun main(args: Array<String>) {
         myChildsUnderscore2 = null
     )
 
-    val dto2_2 = TestDto2(
+    val dto22 = TestDto2(
         id = 324243,
         myChildUnderscore1 = dto1,
         myChildsUnderscore1 = listOf(dto1),
@@ -56,12 +57,12 @@ fun main(args: Array<String>) {
         anEnum = MyEnum.TWO,
         mySubChild = listOf(
             dto2,
-            dto2_2,
+            dto22,
         )
     )
 
     println(Json.encodeToString(dto1))
     println(Json.encodeToString(dto2))
-    println(Json.encodeToString(dto2_2))
+    println(Json.encodeToString(dto22))
     println(Json.encodeToString(dto3))
 }
