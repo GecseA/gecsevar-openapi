@@ -1,5 +1,5 @@
-![my workflow](https://github.com/GecseA/gecsevar-openapi/actions/workflows/gradle.yml/badge.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/hu.gecsevar/hu.gecsevar.openapi.svg)](http://mvnrepository.com/hu.gecsevar/hu.gecsevar.openapi)
+![my workflow](https://github.com/GecseA/gecsevar-openapi/actions/workflows/master.yml/badge.svg)
+[![Maven Central](https://img.shields.io/maven-metadata/v.svg?label=maven-central&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fhu%2Fgecsevar%2Fgv-openapi%2Fmaven-metadata.xml)](http://mvnrepository.com/hu.gecsevar/hu.gecsevar.openapi)
 
 # gecsevar-openapi
 
@@ -21,28 +21,30 @@ Simply add a task to your gradle build config like:
 (builds are in the central repo)
 
 ```
+kotlin {
+    jvmToolchain(21)
+
+    sourceSets {
+        getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated/my")
+    }
+}
+
 buildscript {
     dependencies {
-        classpath("hu.gecsevar:hu.gecsevar.openapi:1.0.15")
+        classpath("hu.gecsevar:gv-openapi")
     }
 }
 
-tasks {
-    named<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerate") {
-        generatorName.set("gv-ktor-server")
-        inputSpec.set("$rootDir/src/main/resources/my-awesome.yaml")
-        outputDir.set("$buildDir/generated/")
-        apiPackage.set("my.domain.api")
-        modelPackage.set("my.domain.schemas")
-    }
+tasks.create("openApiGenerate" + "MyApi", GenerateTask::class.java) {
+    generatorName.set("gv-ktor-server")
+    inputSpec.set("$rootDir/src/main/resources/my-awesome.yaml")
+    outputDir.set("${layout.buildDirectory.get()}/generated/")
+    apiPackage.set("my.domain.api")
+    modelPackage.set("my.domain.schemas")
+    //optional nameMappings.set(mutableMapOf("challenge_ts" to "challenge_ts"))    // _ REPLACED TO underscore IF NOT MAPPED
 }
 
-afterEvaluate() {
-    tasks.named("build") {
-        dependsOn("openApiGenerate")
-    }
-    tasks.named("run") {
-        dependsOn("openApiGenerate")
-    }
+tasks.compileKotlin {
+    dependsOn("openApiGenerateMyApi")
 }
 ```
