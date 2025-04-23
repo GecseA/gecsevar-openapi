@@ -54,8 +54,21 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
     modelPackage.set("hu.gecsevar.openapi.app.database.view")
 }
 
+//tasks.create("openApiGenerate" + "Takarnet", GenerateTask::class.java) {
+//    generatorName.set("gv-ktor-server")
+//    inputSpec.set("$rootDir/app/src/main/resources/openapi.yaml")
+//    outputDir.set("${layout.buildDirectory.get()}/generated/")
+//    apiPackage.set("hu.eing.takarnet.app.plugins.api")
+//    modelPackage.set("hu.eing.takarnet.app.database.view")
+//    nameMappings.set(mutableMapOf(
+//        "Kerelem_beerkezesenek_modja" to "Kerelem_beerkezesenek_modja",
+//        "Benyujto_szemely_tipusa" to "Benyujto_szemely_tipusa",
+//        "A_specialis_szemely_adatai" to "A_specialis_szemely_adatai"))
+//}
+
 tasks.compileKotlin {
     dependsOn("openApiGenerateGecsevar")
+//    dependsOn("openApiGenerateTakarnet")
 }
 
 afterEvaluate() {

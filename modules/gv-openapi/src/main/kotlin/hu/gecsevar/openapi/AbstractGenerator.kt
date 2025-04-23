@@ -84,7 +84,6 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["ByteArray"] = "Array<Byte>"
 
         instantiationTypes["list"] = "listOf"
-        instantiationTypes["map"] = "mapOf"
 
         importMapping = HashMap()
         importMapping["BigDecimal"] = "java.math.BigDecimal"
@@ -98,9 +97,12 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["time"] = "kotlinx.datetime.LocalTime"
         importMapping["string"] = "kotlin.String"
         importMapping["long"] = "kotlin.Long"
+        importMapping["double"] = "kotlin.Double"
         importMapping["boolean"] = "kotlin.Boolean"
         importMapping["integer"] = "kotlin.Int"
         importMapping["array"] = "kotlin.collections.List"
+        importMapping["set"] = "kotlin.collections.Set"
+        importMapping["map"] = "kotlin.collections.Map"
         importMapping["ByteArray"] = "kotlin.ByteArray"
 
         val artifactId = "";

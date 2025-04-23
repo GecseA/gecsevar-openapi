@@ -4,4 +4,4 @@
 
 # Generate DEBUG
 cd .\app\src\main\resources
-java.exe -jar openapi-generator-cli-7.12.0.jar generate -g go -o out -i test_1.yml --global-property debugModels=true
+java.exe -jar openapi-generator-cli-7.12.0.jar generate -g go -o out -i test_1.yml --global-property debugModels=true,debugOperations=true,debugSupportingFiles=true
