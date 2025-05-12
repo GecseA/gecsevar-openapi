@@ -1,5 +1,5 @@
 ![my workflow](https://github.com/GecseA/gecsevar-openapi/actions/workflows/master.yml/badge.svg)
-[![Maven Central](https://img.shields.io/maven-metadata/v.svg?label=maven-central&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fhu%2Fgecsevar%2Fgv-openapi%2Fmaven-metadata.xml)](http://mvnrepository.com/hu.gecsevar/hu.gecsevar.openapi)
+[![Maven Central](https://img.shields.io/maven-metadata/v.svg?label=maven-central&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fhu%2Fgecsevar%2Fgv-openapi%2Fmaven-metadata.xml)](https://mvnrepository.com/artifact/hu.gecsevar/gv-openapi)
 
 # gecsevar-openapi
 

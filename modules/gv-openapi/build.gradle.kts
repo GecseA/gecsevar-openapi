@@ -36,7 +36,6 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
-    testImplementation("org.openapitools:openapi-generator:7.12.0")
 }
 
 tasks.test {
