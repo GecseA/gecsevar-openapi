@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.1
 info:
   title: GecseVa'r OpenAPI generator
   description: |
@@ -119,6 +119,9 @@ components:
   schemas:
     TestDto1:
       type: object
+      tags:
+        - "TAG1"
+        - "TAG2"
       description: "**Field Names:** The data model for the representation **MUST** conform to the *JSON* specification. \n\n
         The values may themselves be objects, strings, numbers, booleans, or arrays of objects. \n\n
         - Key names **MUST** be either camelCase or snake_case, however case MUST be used consistently. \n\n
@@ -187,6 +190,7 @@ components:
             type: string
     TestDto2:
       type: object
+      tags: ["TAG2"]
       required:
         - id
         - myChild_1
@@ -208,6 +212,7 @@ components:
             $ref: "#/components/schemas/TestDto1"
     TestDto3:
       type: object
+      tags: ["TAG3"]
       required:
         - id
         - numberId

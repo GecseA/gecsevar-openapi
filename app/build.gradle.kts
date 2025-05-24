@@ -13,7 +13,8 @@ object Versions {
 plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
-    id("org.openapi.generator") version "7.11.0"
+    id("org.openapi.generator") version "7.13.0"
+
     application
 }
 
@@ -22,6 +23,7 @@ kotlin {
 
     sourceSets {
         getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated")
+        getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated_ddd")
     }
 }
 
@@ -52,8 +54,33 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
     outputDir.set("${layout.buildDirectory.get()}/generated/")
     apiPackage.set("hu.gecsevar.openapi.app.plugins.api")
     modelPackage.set("hu.gecsevar.openapi.app.database.view")
+    additionalProperties.put("dddFormatting", false)
+
+    // Add these properties for 3.1.x support
+    additionalProperties.put("useOneOfDiscriminatorLookup", true)
+    additionalProperties.put("supportUrlQuery", true)
+    additionalProperties.put("openApi31", true)
+    additionalProperties.put("skipValidateSpec", true)
+
+    // Enable legacy mode if needed
+    additionalProperties.put("legacyDiscriminatorBehavior", false)
+    // Specify OpenAPI specification version
+    additionalProperties.put("openApiNullable", true)
+    additionalProperties.put("generateNullableTypes", true)
+
+    // Optional: Configure validation
+    validateSpec.set(false)
+
 }
 
+//tasks.create("openApiGenerate" + "Gecsevar_DDD", GenerateTask::class.java) {
+//    generatorName.set("gv-ktor-server")
+//    inputSpec.set("$rootDir/app/src/main/resources/test_1.yml")
+//    outputDir.set("${layout.buildDirectory.get()}/generated_ddd/")
+//    apiPackage.set("hu.gecsevar.openapi.app.plugins.api")
+//    modelPackage.set("hu.gecsevar.openapi.app.database.view")
+//    additionalProperties.put("dddFormatting", false)
+//}
 //tasks.create("openApiGenerate" + "Takarnet", GenerateTask::class.java) {
 //    generatorName.set("gv-ktor-server")
 //    inputSpec.set("$rootDir/app/src/main/resources/openapi.yaml")
@@ -68,6 +95,7 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
 
 tasks.compileKotlin {
     dependsOn("openApiGenerateGecsevar")
+//    dependsOn("openApiGenerateGecsevar_DDD")
 //    dependsOn("openApiGenerateTakarnet")
 }
 

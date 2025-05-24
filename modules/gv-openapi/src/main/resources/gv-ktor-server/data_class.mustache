@@ -31,3 +31,23 @@ data class {{classname}}(
     {{/vars}}
 {{/hasEnums}}
 }
+
+/*
+-
+{{{description}}}
+{{{tags}}}
+{{#tags}}
+    {{.}}
+{{/tags}}
+--
+
+{{#model}}
+{{#.}}
+Key: {{@key}}
+Value: {{{.}}}
+----------------
+{{/.}}
+{{/model}}
+
+
+*/

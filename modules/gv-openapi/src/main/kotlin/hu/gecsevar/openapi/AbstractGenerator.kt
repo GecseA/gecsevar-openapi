@@ -135,6 +135,14 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
          */
     }
 
+    override fun modelFileFolder(): String? {
+        return super.modelFileFolder()
+    }
+
+    override fun apiFileFolder(): String? {
+        return super.apiFileFolder()
+    }
+
     override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
         return super.addMustacheLambdas()
             .put("convert_path_to_fun", ConvertPathToFunction)
