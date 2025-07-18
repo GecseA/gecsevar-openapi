@@ -1,20 +1,22 @@
 package hu.gecsevar.openapi
 
-import com.github.jknack.handlebars.internal.lang3.StringUtils
 import com.google.common.collect.ImmutableMap
 import com.samskivert.mustache.Mustache
 import com.samskivert.mustache.Template
-import org.mozilla.javascript.ScriptRuntime
-import org.openapitools.codegen.CodegenConfig
-import org.openapitools.codegen.CodegenConstants
-import org.openapitools.codegen.CodegenProperty
-import org.openapitools.codegen.DefaultCodegen
+import org.openapitools.codegen.*
 import org.openapitools.codegen.model.ModelsMap
+import org.openapitools.codegen.utils.CamelizeOption
+import org.openapitools.codegen.utils.StringUtils.camelize
+import org.openapitools.codegen.utils.StringUtils.underscore
 import java.io.Writer
+import java.text.Normalizer
 import java.util.*
+import java.util.regex.Pattern
 
 
 abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
+
+    protected var enumPropertyNaming: CodegenConstants.ENUM_PROPERTY_NAMING_TYPE = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original
 
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
     init {
@@ -109,7 +111,23 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         val artifactVersion = "1.0.0";
         val groupId = "io.swagger";
         val packageName = "";
-        val enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase
+        val enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original
+
+        val enumPropertyNamingOpt = CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC)
+        cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name))
+
+//        cliOptions.add(CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC))
+//        cliOptions.add(CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC))
+//        cliOptions.add(CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC))
+//        cliOptions.add(CliOption(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC))
+//
+//        cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false))
+//        cliOptions.add(
+//            CliOption.newString(
+//                ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
+//                "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"
+//            )
+//        )
 
         /*
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
@@ -258,34 +276,109 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         return String.format("`%s`", name)
     }
 
-    override fun toEnumName(property: CodegenProperty?): String {
-        //CodegenConfigurator.LOGGER.warn("toEnumName: ${property?.name}")
-        return StringUtils.capitalize(property?.name)
-    }
-
-    override fun toEnumValue(value: String, datatype: String?): String? {
-        //CodegenConfigurator.LOGGER.warn("toEnumValue: ${value} | $datatype")
-        if (ScriptRuntime.isPrimitive(datatype)) {
-            return value
+    override fun toEnumVarName(value: String, datatype: String?): String? {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value)
         }
-        return if ("java.math.BigDecimal".equals(datatype, ignoreCase = true)) {
-            "java.math.BigDecimal(\"$value\")"
-        } else super.toEnumValue(value, datatype)
-    }
 
-    override fun toEnumVarName(value: String, datatype: String?): String {
-        //CodegenConfigurator.LOGGER.warn("toEnumVarName: ${value} | $datatype")
-        var modified: String
+        var modified: String?
         if (value.isEmpty()) {
             modified = "EMPTY"
         } else {
-            modified = value
-            //modified = "sanitizeKotlinSpecificNames(modified)"
+            modified = value.replace("-".toRegex(), "_")
+            modified = sanitizeKotlinSpecificNames(modified)
         }
-        modified = modified.uppercase(Locale.getDefault())
-        return if (isReservedWord(modified)) {
-            escapeReservedWord(modified)
-        } else modified
+
+        when (enumPropertyNaming) {
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original ->                 // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
+                modified = Normalizer.normalize(value, Normalizer.Form.NFD).replace("\\p{M}".toRegex(), "")
+
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase ->                 // NOTE: Removes hyphens and underscores
+                modified = camelize(modified, CamelizeOption.LOWERCASE_FIRST_LETTER)
+
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase -> {
+                // NOTE: Removes hyphens and underscores
+                val result: String? = camelize(modified)
+                modified = titleCase(result.toString())
+            }
+
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case ->                 // NOTE: Removes hyphens
+                modified = underscore(modified)
+
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE -> modified = underscore(modified).uppercase(Locale.ROOT)
+        }
+
+        if (reservedWords.contains(modified)) {
+            return escapeReservedWord(modified)
+        }
+        // NOTE: another sanitize because camelize can create an invalid name
+        return sanitizeKotlinSpecificNames(modified)
+    }
+
+    /**
+     * Sanitize against Kotlin specific naming conventions, which may differ from those required by [DefaultCodegen.sanitizeName].
+     *
+     * @param name string to be sanitized
+     * @return sanitized string
+     */
+    private fun sanitizeKotlinSpecificNames(name: String): String {
+        var word = name
+        for (specialCharacters in specialCharReplacements.entries) {
+            word = replaceSpecialCharacters(word, specialCharacters)
+        }
+
+        // Fallback, replace unknowns with underscore.
+        word = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS).matcher(word).replaceAll("_")
+        if (word.matches("\\d.*".toRegex())) {
+            word = "_$word"
+        }
+
+        // _, __, and ___ are reserved in Kotlin. Treat all names with only underscores consistently, regardless of count.
+        if (word.matches("^_*$".toRegex())) {
+            word = word.replace("\\Q_\\E".toRegex(), "Underscore")
+        }
+
+        return word
+    }
+
+    private fun replaceSpecialCharacters(word: String, specialCharacters: MutableMap.MutableEntry<String, String?>): String {
+        val specialChar = specialCharacters.key
+        val replacementChar = specialCharacters.value
+        // Underscore is the only special character we'll allow
+        if (specialChar != "_" && word.contains(specialChar)) {
+            return replaceCharacters(word, specialChar, replacementChar).toString()
+        }
+        return word
+    }
+
+    private fun replaceCharacters(word: String, oldValue: String, newValue: String?): String? {
+        if (!word.contains(oldValue)) {
+            return word
+        }
+        if (word == oldValue) {
+            return newValue
+        }
+        val i = word.indexOf(oldValue)
+        val start = word.substring(0, i)
+        val end: String? = recurseOnEndOfWord(word, oldValue, newValue, i)
+        return start + newValue + end
+    }
+
+    private fun recurseOnEndOfWord(word: String, oldValue: String?, newValue: String?, lastReplacedValue: Int): String? {
+        var end: String? = word.substring(lastReplacedValue + 1)
+        if (!end!!.isEmpty()) {
+            end = titleCase(end)
+            end = replaceCharacters(end!!, oldValue!!, newValue)
+        }
+        return end
+    }
+
+    private fun titleCase(input: String): String {
+        return input.substring(0, 1).uppercase() + input.substring(1)
+    }
+
+    override fun toEnumName(property: CodegenProperty): String? {
+        return property.nameInPascalCase
     }
 
     override fun toModelImport(name: String?): String {

@@ -230,6 +230,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TestDto2"
+        otherEnum:
+          $ref: "#/components/schemas/MyOtherEnum"
+        eastSideEnum:
+          $ref: "#/components/schemas/MyEastSideEnum"
     MyEnum:
       type: string
       enum:
@@ -246,6 +250,40 @@ components:
       enum:
         - THIS_IS_BIG_ERROR
         - THIS_IS_NOT_TO_BIG
+    MyOtherEnum:
+      type: string
+      enum:
+        - aborted
+        - invalid
+        - missing
+        - warning
+        - no_online
+        - no_send
+        - non_exist
+        - 'not unique'
+        - not_checked
+    MyEastSideEnum:
+      type: string
+      enum:
+        - 0%
+        - 1%
+        - 10%
+        - 3%
+        - '5,5%'
+        - '7,7%'
+        - '9,5%'
+        - AAM
+        - AM
+        - EU
+        - EUK
+        - F.AFA
+        - FAD
+        - K.AFA
+        - MAA
+        - TAM
+        - ÁKK
+        - ÁTHK
+
   securitySchemes:
     OAuth2:
       type: oauth2
