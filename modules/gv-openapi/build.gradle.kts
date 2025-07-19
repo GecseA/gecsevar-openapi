@@ -8,13 +8,14 @@ plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
     id("com.gradleup.shadow") version "9.0.0-beta2"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     `java-library`
     `maven-publish`
     signing
 }
 
 group = "hu.gecsevar"
-version = "1.8.1"
+version = "1.8.2"
 
 repositories {
     ivy {
@@ -55,15 +56,21 @@ publishing {
         }
     }
 }
-
-publishing {
-    repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        name = "OSSRH"
-        credentials {
-            username = ossrhAccessUserName
-            password = ossrhAccessUserToken
+// exec:
+// .\gradlew.bat :gv-openapi:publishToSonatype :gv-openapi:closeSonatypeStagingRepository
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set(ossrhAccessUserName)
+            password.set(ossrhAccessUserToken)
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+            stagingProfileId.set("hu.gecsevar")
         }
     }
+}
+
+publishing {
     publications {
         register("mavenJava", MavenPublication::class.java) {
             from(components["kotlin"])

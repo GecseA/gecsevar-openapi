@@ -278,7 +278,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
     override fun toEnumVarName(value: String, datatype: String?): String? {
         if (enumNameMapping.containsKey(value)) {
-            return enumNameMapping.get(value)
+            return enumNameMapping[value]
         }
 
         var modified: String?
@@ -291,7 +291,11 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
         when (enumPropertyNaming) {
             CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original ->                 // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
-                modified = Normalizer.normalize(value, Normalizer.Form.NFD).replace("\\p{M}".toRegex(), "")
+                if (value.isEmpty()) {
+                    modified = "EMPTY"
+                } else {
+                    modified = Normalizer.normalize(value, Normalizer.Form.NFD).replace("\\p{M}".toRegex(), "")
+                }
 
             CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase ->                 // NOTE: Removes hyphens and underscores
                 modified = camelize(modified, CamelizeOption.LOWERCASE_FIRST_LETTER)
