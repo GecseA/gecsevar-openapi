@@ -13,7 +13,7 @@ object Versions {
 plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
-    id("org.openapi.generator") version "7.13.0"
+    id("org.openapi.generator") version "7.14.0"
 
     application
 }
@@ -73,6 +73,31 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
 
 }
 
+tasks.create("openApiGenerate" + "GecsevarClient", GenerateTask::class.java) {
+    generatorName.set("gv-kotlin-client")
+    inputSpec.set("$rootDir/app/src/main/resources/test_1.yml")
+    outputDir.set("${layout.buildDirectory.get()}/generated/")
+    apiPackage.set("hu.gecsevar.openapi.app.plugins.api.client")
+    modelPackage.set("hu.gecsevar.openapi.app.database.view.client")
+    additionalProperties.put("dddFormatting", false)
+
+    // Add these properties for 3.1.x support
+    additionalProperties.put("useOneOfDiscriminatorLookup", true)
+    additionalProperties.put("supportUrlQuery", true)
+    additionalProperties.put("openApi31", true)
+    additionalProperties.put("skipValidateSpec", true)
+
+    // Enable legacy mode if needed
+    additionalProperties.put("legacyDiscriminatorBehavior", false)
+    // Specify OpenAPI specification version
+    additionalProperties.put("openApiNullable", true)
+    additionalProperties.put("generateNullableTypes", true)
+
+    // Optional: Configure validation
+    validateSpec.set(false)
+
+}
+
 //tasks.create("openApiGenerate" + "Gecsevar_DDD", GenerateTask::class.java) {
 //    generatorName.set("gv-ktor-server")
 //    inputSpec.set("$rootDir/app/src/main/resources/test_1.yml")
@@ -95,6 +120,7 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
 
 tasks.compileKotlin {
     dependsOn("openApiGenerateGecsevar")
+    dependsOn("openApiGenerateGecsevarClient")
 //    dependsOn("openApiGenerateGecsevar_DDD")
 //    dependsOn("openApiGenerateTakarnet")
 }

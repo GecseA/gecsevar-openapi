@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
 //    https://github.com/OpenAPITools/openapi-generator/blob/v7.10.0/modules/openapi-generator/src/main/resources/kotlin-server/api_doc.mustache
-    compileOnly("org.openapitools", "openapi-generator", "7.13.0")
+    compileOnly("org.openapitools", "openapi-generator", "7.14.0")
     // https://mvnrepository.com/artifact/gg.jte/jte
     implementation("gg.jte:jte:3.1.16")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
@@ -37,7 +37,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
-    testImplementation("org.openapitools:openapi-generator:7.13.0")
+    testImplementation("org.openapitools:openapi-generator:7.14.0")
 }
 
 tasks.test {

@@ -7,33 +7,29 @@ import org.openapitools.codegen.CodegenType
 import org.openapitools.codegen.SupportingFile
 import java.io.Writer
 
-class KotlinMultiplatformGenerator : AbstractGenerator() {
+class KotlinClientGenerator : AbstractGenerator() {
     init {
         outputFolder = "generated/"
         modelTemplateFiles["model.mustache"] = ".kt"
         apiTemplateFiles["api.mustache"] = ".kt"
         supportingFiles.add(SupportingFile("README.mustache", "", "README.md"))
         //supportingFiles.add(SupportingFile("http_service.mustache", "", "HttpService.kt"))
-        templateDir = "gv-kotlin-multiplatform"
+        templateDir = "gv-kotlin-client"
         embeddedTemplateDir = templateDir
         apiPackage = "Apis"
         modelPackage = "Models"
     }
-
-    // source folder where to write the files
-    protected val sourceFolder = "src"
-    val apiVersion = "1.0.5"
 
     override fun getTag(): CodegenType {
         return CodegenType.CLIENT
     }
 
     override fun getName(): String {
-        return "gv-kotlin-multiplatform"
+        return "gv-kotlin-client"
     }
 
     override fun getHelp(): String {
-        return "Generates a gecsevar's kotlin multiplatform (KMM) client"
+        return "Generates a kotlin data classes and HTTP calls client"
     }
 
 //    override fun setTemplatingEngine(templatingEngine: TemplatingEngineAdapter?) {
@@ -48,10 +44,14 @@ class KotlinMultiplatformGenerator : AbstractGenerator() {
     }
 
     override fun postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("################################################################################");
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        println("################################################################################")
+        println("# Thanks for using my OpenAPI Generator.                                       #")
+        println("#                                                                              #")
+        println("# This generator's contributed by AstrA - https://gecsevar.hu                  #")
+        println("# Please support his work directly by on his GitHub at                         #")
+        println("# Give & Send: stars, feature suggestions, fixes, etc.                         #")
+        println("#                           https://github.com/GecseA/gecsevar-openapi         #")
+        println("################################################################################")
     }
 
     override fun addMustacheLambdas(): ImmutableMap.Builder<String, Mustache.Lambda> {
