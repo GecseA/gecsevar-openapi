@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "1.8.2"
+version = "2.0.0"
 
 repositories {
     ivy {
@@ -81,8 +81,9 @@ publishing {
                 name.set(rootProject.name)
                 packaging = "jar"
                 description.set("Yet another OpenAPI code generator" +
-                        "Very simple OpenAPI generator for Kotlin Ktor Server." +
-                        "It creates interfaces for API paths and all the definied data and enum classes" +
+                        "Very simple OpenAPI generator for ktor framework." +
+                        "It creates interfaces for Client & Server, " +
+                        "You'll get API for Route paths and all the DTOs" +
                         "see Limitation.md")
                 url.set("https://github.com/GecseA/gecsevar-openapi")
                 scm {
