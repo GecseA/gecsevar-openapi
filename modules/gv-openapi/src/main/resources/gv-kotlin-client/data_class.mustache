@@ -1,16 +1,53 @@
-/**
-* {{{description}}}
-{{#vars}}
-    * @param {{{name}}} {{{description}}}
-{{/vars}}
-*/
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
-
+/**
+ * {{{description}}}
+ *
+{{#vars}}
+ * @property {{{name}}} {{{description}}}
+{{/vars}}
+ */
 @Serializable
 data class {{classname}}(
     {{#vars}}
-        val {{{name}}}: {{#isEnum}}{{{description}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{#isArray}}{{^isList}}<{{items.complexType}}>{{/isList}}{{/isArray}}{{^required}}?{{/required}},
+        {{#isMap}}{{>data_class_map}}{{/isMap}}{{^isMap}}{{#lambda.opt_in_requirement}}{{{dataType}}}{{/lambda.opt_in_requirement}}{{#isArray}}{{^isList}}{{#lambda.convert_to_pascal_case}}{{#lambda.opt_in_requirement}}{{items.dataType}}{{/lambda.opt_in_requirement}}{{/lambda.convert_to_pascal_case}}{{/isList}}{{/isArray}}val {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{#lambda.convert_to_pascal_case}}{{{dataType}}}{{/lambda.convert_to_pascal_case}}{{/isEnum}}{{#isArray}}{{^isList}}<{{#lambda.convert_to_pascal_case}}{{items.dataType}}{{/lambda.convert_to_pascal_case}}>{{/isList}}{{/isArray}}{{^required}}? = null{{/required}},{{/isMap}}
     {{/vars}}
 ) {
+{{#hasEnums}}
+    {{#vars}}
+{{#isEnum}}
+    enum class {{nameInPascalCase}}(val value: String) {
+    {{#allowableValues}}{{#enumVars}}{{#enumDescription}}
+        /**
+        * {{.}}
+        */
+    {{/enumDescription}}
+    @SerialName({{{value}}})
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
+    }
+{{/isEnum}}
+    {{/vars}}
+{{/hasEnums}}
 }
+
+/*
+-
+{{{description}}}
+{{{tags}}}
+{{#tags}}
+    {{.}}
+{{/tags}}
+--
+
+{{#model}}
+{{#.}}
+Key: {{@key}}
+Value: {{{.}}}
+----------------
+{{/.}}
+{{/model}}
+
+
+*/

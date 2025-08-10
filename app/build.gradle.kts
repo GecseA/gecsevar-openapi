@@ -3,7 +3,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 // https://docs.gradle.org/current/userguide/composite_builds.html#defining_composite_builds
 object Versions {
     const val KOTLIN    = "2.1.20"
-    const val KTOR      = "3.1.2"
+    const val KTOR      = "3.2.3"
     const val EXPOSED   = "0.60.0"
     const val POSTGRES  = "42.7.5"
     const val H2        = "2.3.232"
@@ -138,6 +138,11 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:${Versions.KTOR}")
     implementation("io.ktor:ktor-server-auth-jvm:${Versions.KTOR}")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:${Versions.KTOR}")
+
+    implementation("io.ktor:ktor-client-core:${Versions.KTOR}")
+    implementation("io.ktor:ktor-client-cio:${Versions.KTOR}")
+    implementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
+
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.KTOR}")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
 

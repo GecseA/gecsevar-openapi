@@ -1,0 +1,1 @@
+val {{{name}}}: {{{dataType}}}<String, {{#isContainer}}List<{{#lambda.convert_to_pascal_case}}{{items.complexType}}{{/lambda.convert_to_pascal_case}}>{{/isContainer}}>{{^required}}? = null{{/required}}{{#required}} = emptyMap(){{/required}},

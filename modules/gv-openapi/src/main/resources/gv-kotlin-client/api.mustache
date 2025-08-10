@@ -3,13 +3,42 @@ package {{apiPackage}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import io.ktor.client.call.*
+import io.ktor.client.*
+import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.*
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.ktor.http.HttpMethod
+import io.ktor.http.Url
+import io.ktor.http.path
 
+{{#operations}}
+    {{#operation}}
+suspend fun {{operationId}}(
+        client: HttpClient,
+        url: Url,
+        {{#allParams}}{{{paramName}}}: {{{dataType}}}{{#isArray}}<{{items.complexType}}{{^isList}}{{/isList}}>{{/isArray}}{{^required}}? = null{{/required}}, {{/allParams}}
+    ): HttpResponse {
+        return client.request {
+            method = HttpMethod.{{#lambda.convert_to_first_capital}}{{httpMethod}}{{/lambda.convert_to_first_capital}}
+            url {
+                protocol = url.protocol
+                host = url.host
+                path("{{path}}"
+{{#pathParams}}
+                    .replace("{" + "{{{paramName}}}" + "}", "${{{paramName}}}")
+{{/pathParams}}
+                )
+{{#queryParams}}
+                parameter("{{{paramName}}}", {{{paramName}}})
+{{/queryParams}}
+                {{#bodyParam}}setBody({{#isArray}}({{{paramName}}}{{^isList}}{{/isList}}){{/isArray}}{{^isArray}}{{#isMap}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMap}}{{^isMap}}{{{paramName}}}{{/isMap}}{{/isArray}}){{/bodyParam}}
+            }
+        }
+}
+
+    {{/operation}}
+{{/operations}}
+
+/*
 {{#operations}}
 class {{classname}}(private val client: HttpService) {
 {{#operation}}
@@ -33,7 +62,7 @@ class {{classname}}(private val client: HttpService) {
 }
 {{/operations}}
 
-/*
+
 package {{apiPackage}}
 
 {{#imports}}import {{import}}

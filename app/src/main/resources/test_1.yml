@@ -19,6 +19,8 @@ servers:
 tags:
   - name: Test 1
     description: Paths and Schemas for cover most functionalities
+  - name: Test CRUD
+    description: Paths for create a CreateReadUpdateDelete test
 paths:
   /first/my-resources:
     get:
@@ -114,6 +116,115 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TestDto3"
+  /my/crud/endpoint:
+    get:
+      operationId: getMyCrudEndpoint
+      description: CRUD example - READ - path
+      tags:
+        - Test CRUD
+      parameters:
+        - name: id
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: number
+            format: int32
+        - name: myString
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of TestDto1 objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestDto1'
+    post:
+      summary: Create a new TestDto1 resource
+      tags:
+        - Test CRUD
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestDto1'
+      responses:
+        '201':
+          description: TestDto1 created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestDto1'
+  /my/crud/endpoint/{id}:
+    get:
+      summary: Retrieve a single TestDto1 resource by ID
+      tags:
+        - Test CRUD
+      parameters:
+        - name: id
+          in: path
+          description: ID of TestDto1 to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A TestDto1 object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestDto1'
+        '404':
+          description: TestDto1 not found
+    put:
+      summary: Update an existing TestDto1 resource by ID
+      tags:
+        - Test CRUD
+      parameters:
+        - name: id
+          in: path
+          description: ID of TestDto1 to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestDto1'
+      responses:
+        '200':
+          description: TestDto1 updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestDto1'
+        '404':
+          description: TestDto1 not found
+    delete:
+      summary: Delete a TestDto1 resource by ID
+      tags:
+        - Test CRUD
+      parameters:
+        - name: id
+          in: path
+          description: ID of TestDto1 to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: TestDto1 deleted
+        '404':
+          description: TestDto1 not found
 
 components:
   schemas:

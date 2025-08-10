@@ -167,6 +167,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             .put("convert_to_pascal_case", ConvertPascalCase)
             .put("convert_data_type_to_snake_case", ConvertDataTypeToSnakeCase)
             .put("opt_in_requirement", OptInRequirement)
+            .put("convert_to_first_capital", ConvertFirstCapital)
     }
 
     object OptInRequirement: Mustache.Lambda {
@@ -178,7 +179,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             }
         }
     }
-            object ConvertPascalCase: Mustache.Lambda {
+
+    object ConvertPascalCase: Mustache.Lambda {
         override fun execute(frag: Template.Fragment?, out: Writer?) {
             val text = frag?.execute()
 
@@ -250,9 +252,19 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 }
             }
             out?.write(myText)
-            //CodegenConfigurator.LOGGER.warn("Mustache.Lambda: $myText")
         }
     }
+
+    object ConvertFirstCapital: Mustache.Lambda {
+        override fun execute(frag: Template.Fragment?, out: Writer?) {
+            val text = frag?.execute()
+
+            val result = text?.lowercase()?.replaceFirstChar { it.uppercase() }
+
+            out?.write(result.toString())
+        }
+    }
+
     override fun postProcessSupportingFileData(objs: MutableMap<String, Any>?): MutableMap<String, Any> {
         return super.postProcessSupportingFileData(objs)
     }

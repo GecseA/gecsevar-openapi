@@ -1,10 +1,16 @@
+import kotlinx.serialization.SerialName
+
 /**
 * {{{description}}}
-* Values: {{#allowableValues}}{{#enumVars}}{{&name}}, {{/enumVars}}{{/allowableValues}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-//enum class {{classname}}(val value: {{dataType}}) {
-enum class {{classname}} {
-{{#allowableValues}}{{#enumVars}}
-    {{{value}}}, // {{&name}}
+enum class {{classname}}(val value: String) {
+{{#allowableValues}}{{#enumVars}}{{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
+    @SerialName({{{value}}})
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}
 {{/enumVars}}{{/allowableValues}}
 }
