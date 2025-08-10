@@ -1,11 +1,6 @@
 package hu.gecsevar.openapi.app
 
-import hu.gecsevar.openapi.app.database.view.MyEastSideEnum
-import hu.gecsevar.openapi.app.database.view.MyEnum
-import hu.gecsevar.openapi.app.database.view.MyOtherEnum
-import hu.gecsevar.openapi.app.database.view.TestDto1
-import hu.gecsevar.openapi.app.database.view.TestDto2
-import hu.gecsevar.openapi.app.database.view.TestDto3
+import hu.gecsevar.openapi.app.database.view.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
