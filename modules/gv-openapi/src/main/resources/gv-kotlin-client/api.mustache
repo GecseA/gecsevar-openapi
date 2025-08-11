@@ -9,6 +9,8 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.Url
 import io.ktor.http.path
+import io.ktor.http.contentType
+import io.ktor.http.ContentType
 
 {{#operations}}
     {{#operation}}
@@ -21,6 +23,7 @@ suspend fun {{operationId}}(
             method = HttpMethod.{{#lambda.convert_to_first_capital}}{{httpMethod}}{{/lambda.convert_to_first_capital}}
             url {
                 protocol = url.protocol
+                contentType(ContentType.Application.Json)
                 host = url.host
                 path("{{path}}"
 {{#pathParams}}

@@ -4,6 +4,7 @@ import hu.gecsevar.openapi.app.database.view.TestDto1
 import hu.gecsevar.openapi.app.plugins.api.TestCRUDApi
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -85,11 +86,27 @@ class TestCRUDApiImpl: TestCRUDApi {
         ))
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun myCrudEndpointIdPut(call: ApplicationCall) {
-        TODO("Not yet implemented")
+        // Request
+        val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid id")
+        val request = call.receive<TestDto1>()
+        // Response
+        /**
+         * code = 200, message = "TestDto1 updated", response: TestDto1
+         * code = 404, message = "TestDto1 not found"
+         */
+        call.respond(HttpStatusCode.OK,request.copy(id = id))
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun myCrudEndpointPost(call: ApplicationCall) {
-        TODO("Not yet implemented")
+        // Request
+        val request = call.receive<TestDto1>()
+        // Response
+        /**
+         * code = 201, message = "TestDto1 created", response: TestDto1
+         */
+        call.respond(HttpStatusCode.Created,request.copy(id = 124710))
     }
 }

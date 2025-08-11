@@ -80,10 +80,11 @@ publishing {
             pom {
                 name.set(rootProject.name)
                 packaging = "jar"
-                description.set("Yet another OpenAPI code generator" +
-                        "Very simple OpenAPI generator for ktor framework." +
+                description.set("OpenAPI code generator in Kotlin for ktor framework." +
+                        "Very simple OpenAPI generator for ktor framework. " +
                         "It creates interfaces for Client & Server, " +
-                        "You'll get API for Route paths and all the DTOs" +
+                        "abstract classes for Routes, you'll need to simple implement, " +
+                        "data classes for each schema DTOs. " +
                         "see Limitation.md")
                 url.set("https://github.com/GecseA/gecsevar-openapi")
                 scm {
