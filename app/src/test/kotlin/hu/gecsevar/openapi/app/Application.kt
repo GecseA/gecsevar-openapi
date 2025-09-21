@@ -1,7 +1,6 @@
 package hu.gecsevar.openapi.app
 
 import hu.gecsevar.openapi.app.api.TestCRUDApiImpl
-import hu.gecsevar.openapi.app.plugins.api.Test1ApiImpl
 import hu.gecsevar.openapi.app.plugins.api.testCRUDApi
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -15,7 +14,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.resources.*
-import io.ktor.server.response.respondText
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureTestApplication() {

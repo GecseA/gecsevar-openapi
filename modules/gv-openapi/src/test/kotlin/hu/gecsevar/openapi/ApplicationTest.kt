@@ -3,9 +3,7 @@ package hu.gecsevar.openapi
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
-import java.io.File
-import java.io.StringWriter
-import kotlin.test.*
+import kotlin.test.Test
 
 class MyTest {
 

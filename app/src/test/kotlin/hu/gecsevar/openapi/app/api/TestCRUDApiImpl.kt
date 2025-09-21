@@ -2,10 +2,10 @@ package hu.gecsevar.openapi.app.api
 
 import hu.gecsevar.openapi.app.database.view.TestDto1
 import hu.gecsevar.openapi.app.plugins.api.TestCRUDApi
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

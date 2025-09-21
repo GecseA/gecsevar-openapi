@@ -116,6 +116,35 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TestDto3"
+  /fourth/my-resources:
+    get:
+      operationId: getFourthResources
+      description: Another test
+      tags:
+        - Test 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TestDto4"
+  /fifth/my-dynamic-resources:
+    get:
+      operationId: getDynamicResources
+      description: Another test
+      tags:
+        - Test 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/TestDtoDynamicContent"
   /my/crud/endpoint:
     get:
       operationId: getMyCrudEndpoint
@@ -345,6 +374,42 @@ components:
           $ref: "#/components/schemas/MyOtherEnum"
         eastSideEnum:
           $ref: "#/components/schemas/MyEastSideEnum"
+    TestDto4:
+      type: object
+      tags: [ "TAG4" ]
+      required:
+        - id
+        - price
+        - amount
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        price:
+          type: string
+          pattern: '^\d+(\.\d{1,2})?$'
+          description: "Decimal number with up to 2 decimal places"
+          example: "1234.56"
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.00
+          maximum: 99999999.99
+          multipleOf: 0.01
+          description: "Decimal number representing amount with 2 decimal places precision"
+          example: 1234.56
+    TestDtoDynamicContent:
+      type: object
+      tags: [ "TAG5" ]
+      required:
+        - id
+        - price
+        - amount
+      properties:
+        id:
+          $ref: "#/components/schemas/ResourceId"
+        myJson:
+          additionalProperties: true  # Accepts any valid JSON as property value
+
     MyEnum:
       type: string
       enum:

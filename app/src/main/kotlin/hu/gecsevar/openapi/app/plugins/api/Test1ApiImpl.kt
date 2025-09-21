@@ -12,6 +12,10 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class Test1ApiImpl: Test1Api {
+    override suspend fun getDynamicResources(call: ApplicationCall) {
+        TODO("Not yet implemented")
+    }
+
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun getFirstTestsByIdAndName(call: ApplicationCall) {
         // Request
@@ -77,5 +81,9 @@ class Test1ApiImpl: Test1Api {
                 mySubChild = TODO()
             )
         ))
+    }
+
+    override suspend fun getFourthResources(call: ApplicationCall) {
+        TODO("Not yet implemented")
     }
 }

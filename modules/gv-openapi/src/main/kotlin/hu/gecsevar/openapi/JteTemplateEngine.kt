@@ -10,7 +10,6 @@ import org.openapitools.codegen.api.TemplatingExecutor
 import org.slf4j.LoggerFactory
 import java.io.Reader
 import java.io.StringReader
-import kotlin.io.*
 
 class JteTemplateEngine(val templateFolder: String) : TemplatingEngineAdapter  {
 

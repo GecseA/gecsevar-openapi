@@ -1,17 +1,13 @@
 package hu.gecsevar.openapi.app
 
 import hu.gecsevar.openapi.app.database.view.client.TestDto1
-import hu.gecsevar.openapi.app.plugins.api.client.getMyCrudEndpoint
-import hu.gecsevar.openapi.app.plugins.api.client.myCrudEndpointIdDelete
-import hu.gecsevar.openapi.app.plugins.api.client.myCrudEndpointIdGet
-import hu.gecsevar.openapi.app.plugins.api.client.myCrudEndpointIdPut
-import hu.gecsevar.openapi.app.plugins.api.client.myCrudEndpointPost
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
+import hu.gecsevar.openapi.app.plugins.api.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

@@ -60,8 +60,18 @@ fun main(args: Array<String>) {
         eastSideEnum = MyEastSideEnum.AKK,
     )
 
+    val dto4 = TestDto4(
+        id = 54321,
+        price = "1234.56",
+        amount = 12// BigDecimal.valueOf(123456.31),
+    )
+
+    val dynamicData = Json.decodeFromString<TestDtoDynamicContent>("" +
+            "{\"id\":123456,\"myJson\":{\"a\":55, \"b\": \"Hello World!\", \"c\": {\"aa\": 123456, \"bb\": 123456.31}}}")
+    
     println(Json.encodeToString(dto1))
     println(Json.encodeToString(dto2))
     println(Json.encodeToString(dto22))
     println(Json.encodeToString(dto3))
+    println(Json.encodeToString(dynamicData))
 }

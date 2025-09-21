@@ -78,7 +78,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["file"] = "ByteArray"   // File as ByteArray
         typeMapping["array"] = "List"
         typeMapping["list"] = "List"
-        typeMapping["map"] = "Map"
+        typeMapping["map"] = "JsonObject"
         typeMapping["object"] = "Any"
         typeMapping["binary"] = "File"
         typeMapping["Date"] = "LocalDate"
@@ -106,6 +106,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["set"] = "kotlin.collections.Set"
         importMapping["map"] = "kotlin.collections.Map"
         importMapping["ByteArray"] = "kotlin.ByteArray"
+        importMapping["AnyType"] = "kotlin.Any"
+        importMapping["map"] = "kotlinx.serialization.json.JsonObject"
 
         val artifactId = "";
         val artifactVersion = "1.0.0";
