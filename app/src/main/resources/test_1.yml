@@ -175,6 +175,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/TestDto1'
     post:
+      operationId: postMyCrudEndpoint
       summary: Create a new TestDto1 resource
       tags:
         - Test CRUD
@@ -193,6 +194,7 @@ paths:
                 $ref: '#/components/schemas/TestDto1'
   /my/crud/endpoint/{id}:
     get:
+      operationId: getMyCrudEndpointWithId
       summary: Retrieve a single TestDto1 resource by ID
       tags:
         - Test CRUD
@@ -213,6 +215,7 @@ paths:
         '404':
           description: TestDto1 not found
     put:
+      operationId: putMyCrudEndpointWithId
       summary: Update an existing TestDto1 resource by ID
       tags:
         - Test CRUD

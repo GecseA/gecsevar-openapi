@@ -96,7 +96,7 @@ class ApplicationTest {
             configureTestApplication()
         }
 
-        val response = myCrudEndpointIdGet(
+        val response = getMyCrudEndpointWithId(
             client = client,
             url = Url(""),
             id = 134532,
@@ -113,7 +113,7 @@ class ApplicationTest {
             configureTestApplication()
         }
 
-        val response = myCrudEndpointIdPut(
+        val response = putMyCrudEndpointWithId(
             client = client.config {
                 install(ContentNegotiation) {
                     json(Json { prettyPrint = true })
@@ -135,7 +135,7 @@ class ApplicationTest {
             configureTestApplication()
         }
 
-        val response = myCrudEndpointPost(
+        val response = postMyCrudEndpoint(
             client = client.config {
                 install(ContentNegotiation) {
                     json(Json { prettyPrint = true })

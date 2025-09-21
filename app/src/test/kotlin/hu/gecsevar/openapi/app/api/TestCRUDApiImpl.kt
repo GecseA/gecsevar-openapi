@@ -58,7 +58,7 @@ class TestCRUDApiImpl: TestCRUDApi {
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override suspend fun myCrudEndpointIdGet(call: ApplicationCall) {
+    override suspend fun getMyCrudEndpointWithId(call: ApplicationCall) {
         // Request
         val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid id")
         // Response
@@ -87,7 +87,7 @@ class TestCRUDApiImpl: TestCRUDApi {
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override suspend fun myCrudEndpointIdPut(call: ApplicationCall) {
+    override suspend fun putMyCrudEndpointWithId(call: ApplicationCall) {
         // Request
         val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid id")
         val request = call.receive<TestDto1>()
@@ -100,7 +100,7 @@ class TestCRUDApiImpl: TestCRUDApi {
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override suspend fun myCrudEndpointPost(call: ApplicationCall) {
+    override suspend fun postMyCrudEndpoint(call: ApplicationCall) {
         // Request
         val request = call.receive<TestDto1>()
         // Response
