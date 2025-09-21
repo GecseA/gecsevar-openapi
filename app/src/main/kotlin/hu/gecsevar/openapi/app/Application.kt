@@ -4,11 +4,21 @@ import hu.gecsevar.openapi.app.database.view.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.ContextualSerializer
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import java.math.BigDecimal
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
+@OptIn(ExperimentalUuidApi::class, ExperimentalSerializationApi::class)
 fun main(args: Array<String>) {
 
     println("Hello World!")
@@ -63,7 +73,7 @@ fun main(args: Array<String>) {
     val dto4 = TestDto4(
         id = 54321,
         price = "1234.56",
-        amount = 12// BigDecimal.valueOf(123456.31),
+        amount = BigDecimal.valueOf(123456.31),
     )
 
     val dynamicData = Json.decodeFromString<TestDtoDynamicContent>("" +
@@ -74,4 +84,25 @@ fun main(args: Array<String>) {
     println(Json.encodeToString(dto22))
     println(Json.encodeToString(dto3))
     println(Json.encodeToString(dynamicData))
+
+    // BigDecimal custom serializer
+    val module = SerializersModule {
+        contextual(BigDecimal::class, BigDecimalSerializer)
+    }
+    val json = Json { serializersModule = module }
+    println(json.encodeToString(TestDto4.serializer(), dto4))
+}
+
+// BigDecimal custom serializer
+object BigDecimalSerializer : KSerializer<BigDecimal> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: BigDecimal) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): BigDecimal {
+        return BigDecimal(decoder.decodeString())
+    }
 }

@@ -20,7 +20,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractKotlinCodegen.java
     init {
-        // Also skip "import ..."
+        // Skip "import ..." for these types
         languageSpecificPrimitives = HashSet(
             mutableListOf(
                 "Byte",
@@ -36,8 +36,6 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
                 "List",
                 "Map",
                 "Set",
-
-                "number",
                 "float",
 
                 "file",
@@ -61,6 +59,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
             )
         )
 
+        // Map OpenAPI types to Kotlin types
         typeMapping = HashMap()
         typeMapping["string"] = "String"
         typeMapping["UUID"] = "Uuid"
@@ -71,7 +70,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         typeMapping["float"] = "Float"
         typeMapping["long"] = "Long"
         typeMapping["double"] = "Double"
-        typeMapping["number"] = "Int"
+        typeMapping["number"] = "@Contextual BigDecimal"
         typeMapping["date-time"] = "Instant"
         typeMapping["date"] = "LocalDate"
         typeMapping["time"] = "LocalTime"
@@ -87,8 +86,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
         instantiationTypes["list"] = "listOf"
 
+        // Add import for specific types, keep in mind the languageSpecificPrimitives variable!
         importMapping = HashMap()
-        importMapping["BigDecimal"] = "java.math.BigDecimal"
         importMapping["UUID"] = "kotlin.uuid.Uuid; import kotlin.uuid.ExperimentalUuidApi"
         importMapping["File"] = "java.io.File"
         importMapping["Date"] = "java.util.Date"
@@ -108,6 +107,7 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["ByteArray"] = "kotlin.ByteArray"
         importMapping["AnyType"] = "kotlin.Any"
         importMapping["map"] = "kotlinx.serialization.json.JsonObject"
+        importMapping["number"] = "java.math.BigDecimal; import kotlinx.serialization.Contextual"
 
         val artifactId = "";
         val artifactVersion = "1.0.0";
