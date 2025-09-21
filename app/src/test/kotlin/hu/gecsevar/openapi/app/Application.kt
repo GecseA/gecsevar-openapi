@@ -16,6 +16,9 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import java.math.BigDecimal
 
 fun Application.configureTestApplication() {
 
@@ -37,7 +40,12 @@ fun Application.configureRouting() {
 
 fun Application.configureSerialization() {
     install(ContentNegotiation) {
-        json()
+        json(Json {
+            serializersModule = SerializersModule {
+                contextual(BigDecimal::class, hu.gecsevar.openapi.app.serializers.BigDecimalSerializer)
+            }
+            prettyPrint = true
+        })
     }
 }
 

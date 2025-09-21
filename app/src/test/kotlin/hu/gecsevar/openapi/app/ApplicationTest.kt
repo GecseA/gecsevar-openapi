@@ -2,6 +2,7 @@ package hu.gecsevar.openapi.app
 
 import hu.gecsevar.openapi.app.database.view.client.TestDto1
 import hu.gecsevar.openapi.app.plugins.api.client.*
+import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -13,7 +14,10 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.serializersModule
+import kotlinx.serialization.modules.SerializersModule
 import org.junit.jupiter.api.Assertions.assertEquals
+import java.math.BigDecimal
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlin.uuid.ExperimentalUuidApi
@@ -57,7 +61,6 @@ class ApplicationTest {
         application {
             configureTestApplication()
         }
-
         val response = getMyCrudEndpoint(
             client = client,
             url = Url(""),

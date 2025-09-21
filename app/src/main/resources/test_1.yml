@@ -157,7 +157,7 @@ paths:
           description: ''
           required: false
           schema:
-            type: number
+            type: integer
             format: int32
         - name: myString
           in: query
