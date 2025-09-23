@@ -76,8 +76,10 @@ fun main(args: Array<String>) {
     )
 
     val dynamicData = Json.decodeFromString<TestDtoDynamicContent>("" +
-            "{\"id\":123456,\"myJson\":{\"a\":55, \"b\": \"Hello World!\", \"c\": {\"aa\": 123456, \"bb\": 123456.31}}}")
-    
+            "{\"id\":123456}")
+    // FIXME OpenAPI 3.1 feature works but, on GitHub the build action fails. Uncomment when org.openapitools:openapi-generator fully supports OpenAPI 3.1
+    //        "{\"id\":123456,\"myJson\":{\"a\":55, \"b\": \"Hello World!\", \"c\": {\"aa\": 123456, \"bb\": 123456.31}}}")
+
     println(Json.encodeToString(dto1))
     println(Json.encodeToString(dto2))
     println(Json.encodeToString(dto22))

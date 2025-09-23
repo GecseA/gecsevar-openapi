@@ -410,8 +410,9 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/ResourceId"
-        myJson:
-          additionalProperties: true  # Accepts any valid JSON as property value
+# FIXME OpenAPI 3.1 feature works but, on GitHub the build action fails. Uncomment when org.openapitools:openapi-generator fully supports OpenAPI 3.1
+#        myJson:
+#          additionalProperties: true  # Accepts any valid JSON as property value
 
     MyEnum:
       type: string
