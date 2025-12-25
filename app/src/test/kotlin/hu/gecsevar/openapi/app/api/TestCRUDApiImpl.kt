@@ -6,15 +6,16 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class TestCRUDApiImpl: TestCRUDApi {
 
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun getMyCrudEndpoint(call: ApplicationCall) {
         // Request
         val id = call.request.queryParameters["id"]?.toInt()
@@ -57,7 +58,7 @@ class TestCRUDApiImpl: TestCRUDApi {
             call.respond(HttpStatusCode.NotFound)
     }
 
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun getMyCrudEndpointWithId(call: ApplicationCall) {
         // Request
         val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid id")
@@ -86,7 +87,7 @@ class TestCRUDApiImpl: TestCRUDApi {
         ))
     }
 
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun putMyCrudEndpointWithId(call: ApplicationCall) {
         // Request
         val id = call.parameters["id"]?.toInt() ?: throw IllegalArgumentException("Invalid id")
@@ -99,7 +100,7 @@ class TestCRUDApiImpl: TestCRUDApi {
         call.respond(HttpStatusCode.OK,request.copy(id = id))
     }
 
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun postMyCrudEndpoint(call: ApplicationCall) {
         // Request
         val request = call.receive<TestDto1>()

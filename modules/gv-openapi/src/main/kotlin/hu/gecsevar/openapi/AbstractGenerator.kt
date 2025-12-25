@@ -12,6 +12,7 @@ import java.io.Writer
 import java.text.Normalizer
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.time.ExperimentalTime
 
 
 abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
@@ -91,8 +92,8 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
         importMapping["UUID"] = "kotlin.uuid.Uuid; import kotlin.uuid.ExperimentalUuidApi"
         importMapping["File"] = "java.io.File"
         importMapping["Date"] = "java.util.Date"
-        importMapping["Timestamp"] = "kotlinx.datetime.Instant"
-        importMapping["DateTime"] = "kotlinx.datetime.Instant"
+        importMapping["Timestamp"] = "kotlin.time.Instant; import kotlin.time.ExperimentalTime" // upgrade to Exposed 1.x
+        importMapping["DateTime"] = "kotlin.time.Instant; import kotlin.time.ExperimentalTime"  // upgrade to Exposed 1.x
         importMapping["date-time"] = "kotlinx.datetime.LocalDateTime"
         importMapping["date"] = "kotlinx.datetime.LocalDate"
         importMapping["time"] = "kotlinx.datetime.LocalTime"
@@ -178,6 +179,9 @@ abstract class AbstractGenerator : DefaultCodegen(), CodegenConfig {
 
             if (text == "Uuid") {
                 out?.write("@OptIn(ExperimentalUuidApi::class) ")
+            }
+            if (text == "Instant") {
+                out?.write("@OptIn(ExperimentalTime::class) ")
             }
         }
     }

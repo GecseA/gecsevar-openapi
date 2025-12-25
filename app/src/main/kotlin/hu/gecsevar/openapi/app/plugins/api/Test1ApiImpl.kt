@@ -1,22 +1,21 @@
 package hu.gecsevar.openapi.app.plugins.api
 
+import hu.gecsevar.openapi.app.database.view.MyEnum
 import hu.gecsevar.openapi.app.database.view.TestDto1
 import hu.gecsevar.openapi.app.database.view.TestDto2
 import hu.gecsevar.openapi.app.database.view.TestDto3
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class Test1ApiImpl: Test1Api {
-    override suspend fun getDynamicResources(call: ApplicationCall) {
-        TODO("Not yet implemented")
-    }
 
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun getFirstTestsByIdAndName(call: ApplicationCall) {
         // Request
         // val resourceStringId = call.request.queryParameters["resourceStringId"]?.toString()
@@ -75,15 +74,23 @@ class Test1ApiImpl: Test1Api {
 
         call.respond(listOf(
             TestDto3(
-                id = TODO(),
-                numberId = TODO(),
-                anEnum = TODO(),
-                mySubChild = TODO()
+                id = 0,
+                numberId = 0,
+                anEnum = MyEnum.ONE,
+                mySubChild = null,
             )
         ))
     }
 
     override suspend fun getFourthResources(call: ApplicationCall) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getDynamicResources(call: ApplicationCall) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFifthArrayResources(call: ApplicationCall) {
         TODO("Not yet implemented")
     }
 }

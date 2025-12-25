@@ -1,7 +1,6 @@
 package hu.gecsevar.openapi.app
 
 import hu.gecsevar.openapi.app.database.view.*
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -14,10 +13,12 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import java.math.BigDecimal
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class, ExperimentalSerializationApi::class)
+@OptIn(ExperimentalUuidApi::class, ExperimentalSerializationApi::class, ExperimentalTime::class)
 fun main(args: Array<String>) {
 
     println("Hello World!")
@@ -92,6 +93,7 @@ fun main(args: Array<String>) {
     }
     val json = Json { serializersModule = module }
     println(json.encodeToString(TestDto4.serializer(), dto4))
+
 }
 
 // BigDecimal custom serializer

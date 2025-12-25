@@ -145,6 +145,19 @@ paths:
               schema:
                 type: object
                 $ref: "#/components/schemas/TestDtoDynamicContent"
+  /fifth/my-array-resources:
+    get:
+      operationId: getFifthArrayResources
+      description: Another test
+      tags:
+        - Test 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestMyArray"
   /my/crud/endpoint:
     get:
       operationId: getMyCrudEndpoint
@@ -414,6 +427,18 @@ components:
 #        myJson:
 #          additionalProperties: true  # Accepts any valid JSON as property value
 
+    TestMyArray:
+      type: array
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [ ENUM_1, ENUM_2, ENUM_3, ]
+            value:
+              type: string
     MyEnum:
       type: string
       enum:

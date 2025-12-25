@@ -5,8 +5,8 @@ val ossrhAccessUserName: String? by project
 val ossrhAccessUserToken: String? by project
 
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("jvm") version "2.2.20"
+    kotlin("plugin.serialization") version "2.2.20"
     id("com.gradleup.shadow") version "9.0.0-beta2"
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     `java-library`
@@ -15,29 +15,25 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "2.3.0"
+version = "3.0.0"
 
 repositories {
-    ivy {
-        name = "localrepo"
-        url = uri(file("../../../local-repo"))
-    }
     mavenCentral()
 }
 
 dependencies {
 //    https://github.com/OpenAPITools/openapi-generator/blob/v7.10.0/modules/openapi-generator/src/main/resources/kotlin-server/api_doc.mustache
-    compileOnly("org.openapitools", "openapi-generator", "7.15.0")
+    compileOnly("org.openapitools", "openapi-generator", "7.18.0")
     // https://mvnrepository.com/artifact/gg.jte/jte
     implementation("gg.jte:jte:3.1.16")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.7.1")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.1.10")
-    testImplementation("org.openapitools:openapi-generator:7.15.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.2.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
+    testImplementation("org.openapitools:openapi-generator:7.18.0")
 }
 
 tasks.test {
@@ -81,7 +77,6 @@ publishing {
                 name.set(rootProject.name)
                 packaging = "jar"
                 description.set("OpenAPI code generator in Kotlin for ktor framework." +
-                        "Very simple OpenAPI generator for ktor framework. " +
                         "It creates interfaces for Client & Server, " +
                         "abstract classes for Routes, you'll need to simple implement, " +
                         "data classes for each schema DTOs. " +

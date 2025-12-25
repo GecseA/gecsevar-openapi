@@ -1,19 +1,9 @@
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
-// https://docs.gradle.org/current/userguide/composite_builds.html#defining_composite_builds
-object Versions {
-    const val KOTLIN    = "2.1.20"
-    const val KTOR      = "3.2.3"
-    const val EXPOSED   = "0.60.0"
-    const val POSTGRES  = "42.7.5"
-    const val H2        = "2.3.232"
-    const val LOGBACK   = "1.4.12"
-}
-
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
-    id("org.openapi.generator") version "7.15.0"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
+    id("org.openapi.generator") version "7.18.0"
 
     application
 }
@@ -35,10 +25,6 @@ application {
 }
 
 repositories {
-    ivy {
-        name = "localrepo"
-        url = uri(project.file("../../local-repo"))
-    }
     mavenCentral()
 }
 
@@ -152,11 +138,13 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:${Versions.KTOR}")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
 
     testImplementation("io.ktor:ktor-server-test-host:${Versions.KTOR}")
     testImplementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${Versions.KOTLIN}")
+
+
 }
 
