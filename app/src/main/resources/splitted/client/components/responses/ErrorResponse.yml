@@ -1,5 +1,5 @@
-description: A standard error response
-content:
-  application/json:
-    schema:
-      $ref: '../../../SplittedExample.yml#/components/schemas/ErrorResponseDto'
+  description: A standard error response
+  content:
+    application/json:
+      schema:
+        $ref: '../../../SplittedExample.yml#/components/schemas/ErrorResponseDto'

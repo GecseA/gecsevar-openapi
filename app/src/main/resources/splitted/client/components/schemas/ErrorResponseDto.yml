@@ -1,19 +1,20 @@
-type: object
-description: this is an error
-properties:
-  code:
-    type: string
-    description: Stable machine-readable error code
-    example:
-      - VALIDATION_ERROR
-      - NOT_FOUND
-      - CONFLICT
-  message:
-    type: string
-    description: Human-readable message
-  details:
-    type: string
-    description: Optional structured details
-    example:
-      code: BAD_REQUEST
-      message: Invalid input provided
+ErrorResponseDto:
+  type: object
+  description: this is an error
+  properties:
+    code:
+      type: string
+      description: Stable machine-readable error code
+      example:
+        - VALIDATION_ERROR
+        - NOT_FOUND
+        - CONFLICT
+    message:
+      type: string
+      description: Human-readable message
+    details:
+      type: string
+      description: Optional structured details
+      example:
+        code: BAD_REQUEST
+        message: Invalid input provided

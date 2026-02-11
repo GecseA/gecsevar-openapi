@@ -60,7 +60,7 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
 
 tasks.create("openApiGenerate" + "GecsevarSplitted", GenerateTask::class.java) {
     generatorName.set("gv-ktor-server")
-    inputSpec.set("$rootDir/app/src/main/resources/splitted/bundled-api.yml")
+    inputSpec.set("$rootDir/app/src/main/resources/splitted/SplittedExample.yml")
     outputDir.set("${layout.buildDirectory.get()}/generated/")
     apiPackage.set("hu.gecsevar.openapi.app_split.plugins.api")
     modelPackage.set("hu.gecsevar.openapi.app_split.database.view")
@@ -82,9 +82,9 @@ tasks.create("openApiGenerate" + "GecsevarSplitted", GenerateTask::class.java) {
 //    validateSpec.set(false)
 
     // Schemas are wrapped, fix
-    additionalProperties.put("useBeanValidation", true)
-    additionalProperties.put("responseWrapper", "ResponseEntity")
-    additionalProperties.put("generateModels", false)
+//    additionalProperties.put("useBeanValidation", true)
+//    additionalProperties.put("responseWrapper", "ResponseEntity")
+//    additionalProperties.put("generateModels", false)
 }
 
 tasks.create("openApiGenerate" + "GecsevarClient", GenerateTask::class.java) {

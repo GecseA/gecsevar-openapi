@@ -37,7 +37,7 @@ components:
     ClientListDto:
       $ref: './client/components/schemas/ClientDto.yml#/ClientListDto'
     ErrorResponseDto:
-      $ref: './client/components/schemas/ErrorResponseDto.yml'
+      $ref: './client/components/schemas/ErrorResponseDto.yml#/ErrorResponseDto'
 
   responses:
     ErrorResponse:

@@ -13,7 +13,7 @@ get:
           schema:
             $ref: '../components/schemas/ClientDto.yml#/ClientDto'
     '404':
-      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
+      $ref: '../components/responses/ErrorResponse.yml'
 
 put:
   tags: [Clients]
@@ -33,7 +33,7 @@ put:
           schema:
             $ref: '../components/schemas/ClientDto.yml#/ClientDto'
     '404':
-      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
+      $ref: '../components/responses/ErrorResponse.yml'
 
 patch:
   tags: [Clients]
@@ -53,7 +53,7 @@ patch:
           schema:
             $ref: '../components/schemas/ClientDto.yml#/ClientDto'
     '404':
-      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
+      $ref: '../components/responses/ErrorResponse.yml'
 
 delete:
   tags: [Clients]
@@ -63,4 +63,4 @@ delete:
     '204':
       description: Deleted
     '404':
-      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
+      $ref: '../components/responses/ErrorResponse.yml'
