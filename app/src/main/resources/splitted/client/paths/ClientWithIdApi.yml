@@ -1,0 +1,66 @@
+parameters:
+  - $ref: '../components/parameters/ClientId.yml#/ClientId'
+
+get:
+  tags: [Clients]
+  operationId: getClient
+  summary: Get a client by id
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ClientDto.yml#/ClientDto'
+    '404':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+
+put:
+  tags: [Clients]
+  operationId: replaceClient
+  summary: Replace a client
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/ClientDto.yml#/ClientUpdateDto'
+  responses:
+    '200':
+      description: Updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ClientDto.yml#/ClientDto'
+    '404':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+
+patch:
+  tags: [Clients]
+  operationId: updateClient
+  summary: Partially update a client
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/ClientDto.yml#/ClientUpdateDto'
+  responses:
+    '200':
+      description: Updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ClientDto.yml#/ClientDto'
+    '404':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+
+delete:
+  tags: [Clients]
+  operationId: deleteClient
+  summary: Delete a client
+  responses:
+    '204':
+      description: Deleted
+    '404':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'

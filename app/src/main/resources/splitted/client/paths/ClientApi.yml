@@ -1,0 +1,33 @@
+get:
+  tags: [Clients]
+  operationId: listClients
+  summary: List clients
+  responses:
+    '200':
+      description: Returns a list of clients
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ClientDto.yml#/ClientListDto'
+    '400':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+
+post:
+  tags: [Clients]
+  operationId: createClient
+  summary: Create a client
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/ClientDto.yml#/ClientCreateDto'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ClientDto.yml#/ClientDto'
+    '400':
+      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'

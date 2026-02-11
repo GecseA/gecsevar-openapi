@@ -1,0 +1,21 @@
+ErrorResponse:
+  description: A standard error response
+  content:
+    application/json:
+      schema:
+        type: object
+        description: this is an error
+        properties:
+          code:
+            type: string
+            description: Stable machine-readable error code
+            examples: [ VALIDATION_ERROR, NOT_FOUND, CONFLICT ]
+          message:
+            type: string
+            description: Human-readable message
+          details:
+            type: string
+            description: Optional structured details
+      example: # Inline example in response component
+        code: BAD_REQUEST
+        message: Invalid input provided

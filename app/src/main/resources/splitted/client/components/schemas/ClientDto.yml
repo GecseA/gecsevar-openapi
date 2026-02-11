@@ -1,0 +1,61 @@
+ClientDto:
+  type: object
+  properties:
+    id:
+      type: string
+      examples: [ client_123 ]
+    fullName:
+      type: string
+      examples: [ "Alex Driver" ]
+    email:
+      type: string
+      format: email
+      examples: [ "alex.driver@example.com" ]
+    phone:
+      type: string
+      examples: [ "+36-30-123-4567" ]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required: [ id, fullName, createdAt, updatedAt ]
+
+ClientCreateDto:
+  type: object
+  properties:
+    fullName:
+      type: string
+      minLength: 1
+    email:
+      type: string
+      format: email
+    phone:
+      type: string
+  required: [ fullName ]
+
+ClientUpdateDto:
+  type: object
+  properties:
+    fullName:
+      type: string
+      minLength: 1
+    email:
+      type: string
+      format: email
+    phone:
+      type: string
+
+ClientListDto:
+  type: object
+  description: 'List of clients'
+  properties:
+    items:
+      type: array
+      items:
+        $ref: '#/ClientDto'
+    total:
+      type: integer
+      minimum: 0
+  required: [ items, total ]

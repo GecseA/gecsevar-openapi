@@ -1,0 +1,38 @@
+openapi: 3.1.1
+info:
+  title: Gecsevar Example - OpenAPI 3.x
+  version: 1.0.0
+  description: API (DDD file-level structure)
+
+servers:
+  - url: https://api.gecsevar.hu
+
+tags:
+  - name: Clients
+    description: "Client management (DDD: client domain)"
+  - name: Cars
+    description: "Car management (DDD: car domain)"
+  - name: ClientCars
+    description: "Client ↔ Car connection (DDD: relationship)"
+
+paths:
+
+  /clients:
+    $ref: './client/paths/ClientApi.yml'
+  /clients/{clientId}:
+    $ref: './client/paths/ClientWithIdApi.yml'
+
+components:
+  parameters:
+    ClientId:
+      $ref: './client/components/parameters/ClientId.yml#/ClientId'
+
+  schemas:
+    ClientDto:
+      $ref: './client/components/schemas/ClientDto.yml#/ClientDto'
+    ClientCreateDto:
+      $ref: './client/components/schemas/ClientDto.yml#/ClientCreateDto'
+    ClientUpdateDto:
+      $ref: './client/components/schemas/ClientDto.yml#/ClientUpdateDto'
+    ClientListDto:
+      $ref: './client/components/schemas/ClientDto.yml#/ClientListDto'
