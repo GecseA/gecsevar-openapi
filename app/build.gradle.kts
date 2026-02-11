@@ -56,32 +56,35 @@ tasks.create("openApiGenerate" + "Gecsevar", GenerateTask::class.java) {
 
     // Optional: Configure validation
     validateSpec.set(false)
-
 }
 
 tasks.create("openApiGenerate" + "GecsevarSplitted", GenerateTask::class.java) {
     generatorName.set("gv-ktor-server")
-    inputSpec.set("$rootDir/app/src/main/resources/splitted/SplittedExample.yml")
+    inputSpec.set("$rootDir/app/src/main/resources/splitted/bundled-api.yml")
     outputDir.set("${layout.buildDirectory.get()}/generated/")
     apiPackage.set("hu.gecsevar.openapi.app_split.plugins.api")
     modelPackage.set("hu.gecsevar.openapi.app_split.database.view")
     additionalProperties.put("dddFormatting", false)
 
-    // Add these properties for 3.1.x support
-    additionalProperties.put("useOneOfDiscriminatorLookup", true)
-    additionalProperties.put("supportUrlQuery", true)
-    additionalProperties.put("openApi31", true)
-    additionalProperties.put("skipValidateSpec", true)
+//    // Add these properties for 3.1.x support
+//    additionalProperties.put("useOneOfDiscriminatorLookup", true)
+//    additionalProperties.put("supportUrlQuery", true)
+//    additionalProperties.put("openApi31", true)
+//    additionalProperties.put("skipValidateSpec", true)
+//
+//    // Enable legacy mode if needed
+//    additionalProperties.put("legacyDiscriminatorBehavior", false)
+//    // Specify OpenAPI specification version
+//    additionalProperties.put("openApiNullable", true)
+//    additionalProperties.put("generateNullableTypes", true)
+//
+//    // Optional: Configure validation
+//    validateSpec.set(false)
 
-    // Enable legacy mode if needed
-    additionalProperties.put("legacyDiscriminatorBehavior", false)
-    // Specify OpenAPI specification version
-    additionalProperties.put("openApiNullable", true)
-    additionalProperties.put("generateNullableTypes", true)
-
-    // Optional: Configure validation
-    validateSpec.set(false)
-
+    // Schemas are wrapped, fix
+    additionalProperties.put("useBeanValidation", true)
+    additionalProperties.put("responseWrapper", "ResponseEntity")
+    additionalProperties.put("generateModels", false)
 }
 
 tasks.create("openApiGenerate" + "GecsevarClient", GenerateTask::class.java) {

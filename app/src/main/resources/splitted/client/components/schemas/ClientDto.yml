@@ -54,7 +54,7 @@ ClientListDto:
     items:
       type: array
       items:
-        $ref: '#/ClientDto'
+        $ref: '../../../SplittedExample.yml#/components/schemas/ClientDto'
     total:
       type: integer
       minimum: 0

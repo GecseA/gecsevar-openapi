@@ -8,7 +8,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ClientDto.yml#/ClientListDto'
+            $ref: '../../SplittedExample.yml#/components/schemas/ClientListDto'
     '400':
       $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
 
@@ -21,7 +21,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/ClientDto.yml#/ClientCreateDto'
+          $ref: '../../SplittedExample.yml#/components/schemas/ClientCreateDto'
   responses:
     '201':
       description: Created
