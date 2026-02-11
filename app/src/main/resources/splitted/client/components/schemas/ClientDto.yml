@@ -3,17 +3,17 @@ ClientDto:
   properties:
     id:
       type: string
-      examples: [ client_123 ]
+      example: [ client_123 ]
     fullName:
       type: string
-      examples: [ "Alex Driver" ]
+      example: [ "Alex Driver" ]
     email:
       type: string
       format: email
-      examples: [ "alex.driver@example.com" ]
+      example: [ "alex.driver@example.com" ]
     phone:
       type: string
-      examples: [ "+36-30-123-4567" ]
+      example: [ "+36-30-123-4567" ]
     createdAt:
       type: string
       format: date-time

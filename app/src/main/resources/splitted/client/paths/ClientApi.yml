@@ -10,7 +10,7 @@ get:
           schema:
             $ref: '../../SplittedExample.yml#/components/schemas/ClientListDto'
     '400':
-      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
 
 post:
   tags: [Clients]
@@ -30,4 +30,4 @@ post:
           schema:
             $ref: '../components/schemas/ClientDto.yml#/ClientDto'
     '400':
-      $ref: '../components/responses/ErrorResponse.yml#/ErrorResponse'
+      $ref: '../../SplittedExample.yml#/components/responses/ErrorResponse'
