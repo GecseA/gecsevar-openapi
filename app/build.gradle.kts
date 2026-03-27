@@ -3,13 +3,13 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
-    id("org.openapi.generator") version "7.18.0"
+    id("org.openapi.generator") version "7.19.0"
 
     application
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 
     sourceSets {
         getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated")
@@ -173,7 +173,5 @@ dependencies {
     testImplementation("io.ktor:ktor-client-content-negotiation:${Versions.KTOR}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${Versions.KOTLIN}")
-
-
 }
 

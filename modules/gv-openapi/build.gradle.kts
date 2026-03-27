@@ -17,6 +17,24 @@ plugins {
 group = "hu.gecsevar"
 version = "3.0.0"
 
+kotlin {
+    jvmToolchain(24)
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(24))
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -38,11 +56,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }
 
 publishing {
