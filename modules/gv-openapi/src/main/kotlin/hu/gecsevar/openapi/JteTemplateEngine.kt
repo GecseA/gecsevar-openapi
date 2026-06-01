@@ -16,9 +16,7 @@ class JteTemplateEngine(val templateFolder: String) : TemplatingEngineAdapter  {
     private val codeResolver = ResourceCodeResolver(templateFolder)
     private val compiler = TemplateEngine.create(codeResolver, ContentType.Plain)
     private var logger = LoggerFactory.getLogger(TemplatingEngineAdapter::class.java)
-    init {
 
-    }
     override fun getIdentifier(): String {
         return "jte"
     }
@@ -42,7 +40,6 @@ class JteTemplateEngine(val templateFolder: String) : TemplatingEngineAdapter  {
         val output = StringOutput()
         val res = compiler.hasTemplate(templateFile)
         logger.warn("compileTemplate2: $res")
-        //compiler.render(templateFile, bundle, output)
         logger.warn("compileTemplate3: $output")
         return output.toString()
     }

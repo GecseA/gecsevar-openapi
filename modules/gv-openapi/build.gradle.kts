@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "3.0.0"
+version = "3.0.1"
 
 kotlin {
     jvmToolchain(24)
