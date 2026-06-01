@@ -30,7 +30,7 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("hu.gecsevar:gv-openapi")
+        classpath("hu.gecsevar:gv-openapi:3.0.0")
     }
 }
 
@@ -148,7 +148,7 @@ afterEvaluate() {
 }
 
 dependencies {
-    implementation("hu.gecsevar:gv-openapi")
+    implementation("hu.gecsevar:gv-openapi:3.0.0")
 
     implementation("io.ktor:ktor-server-core-jvm:${Versions.KTOR}")
     implementation("io.ktor:ktor-server-auth-jvm:${Versions.KTOR}")

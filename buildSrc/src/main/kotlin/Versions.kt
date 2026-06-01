@@ -11,4 +11,5 @@ object Versions {
     const val ELASTICSEARCH             = "8.12.2"  // Latest stable version
     const val MINIO                     = "8.6.0"
     const val KEYCLOAK                  = "26.0.7"
+    const val OPENAPI_GENERATOR         = "7.22.0"
 }

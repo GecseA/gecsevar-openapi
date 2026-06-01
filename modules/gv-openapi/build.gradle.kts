@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.serialization") version "2.2.20"
     id("com.gradleup.shadow") version "9.0.0-beta2"
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    id("org.sonarqube") version "7.3.0.8198"
     `java-library`
     `maven-publish`
     signing
@@ -36,22 +37,23 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
 dependencies {
 //    https://github.com/OpenAPITools/openapi-generator/blob/v7.10.0/modules/openapi-generator/src/main/resources/kotlin-server/api_doc.mustache
-    compileOnly("org.openapitools", "openapi-generator", "7.18.0")
+    compileOnly("org.openapitools:openapi-generator:${Versions.OPENAPI_GENERATOR}")
     // https://mvnrepository.com/artifact/gg.jte/jte
     implementation("gg.jte:jte:3.1.16")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.9.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.KOTLINX_SERIALIZATION}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATION}")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.7.1")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.2.20")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:2.2.20")
-    testImplementation("org.openapitools:openapi-generator:7.18.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.KOTLIN}")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:${Versions.KOTLIN}")
+    testImplementation("org.openapitools:openapi-generator:${Versions.OPENAPI_GENERATOR}")
 }
 
 tasks.test {
