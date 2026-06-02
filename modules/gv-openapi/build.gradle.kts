@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "hu.gecsevar"
-version = "3.0.1"
+version = "3.1.0"
 
 kotlin {
     jvmToolchain(24)
@@ -67,8 +67,7 @@ publishing {
         }
     }
 }
-// exec:
-// .\gradlew.bat :gv-openapi:publishToSonatype :gv-openapi:closeSonatypeStagingRepository
+
 nexusPublishing {
     repositories {
         sonatype {

@@ -9,7 +9,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(25)
+    jvmToolchain(24)
 
     sourceSets {
         getByName("main").kotlin.srcDirs("${layout.buildDirectory.get()}/generated")
@@ -30,7 +30,7 @@ repositories {
 
 buildscript {
     dependencies {
-        classpath("hu.gecsevar:gv-openapi:3.0.0")
+        classpath("hu.gecsevar:gv-openapi:3.0.1")
     }
 }
 
